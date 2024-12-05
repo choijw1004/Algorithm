@@ -1,2 +1,3 @@
-Commit log Test
+Commmit log Test
 test1
+test2
