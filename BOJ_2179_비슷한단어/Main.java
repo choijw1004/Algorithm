@@ -1,4 +1,5 @@
 package BOJ_2179_비슷한단어;
+
 import java.util.*;
 
 class StringClass {
@@ -8,16 +9,12 @@ class StringClass {
 
 public class Main {
 
-    public static void sortList(List<StringClass> words) {
-        words.sort(Comparator.comparing(s -> s.word));
-    }
-
-    public static int calcuLength(StringClass word1, StringClass word2) {
+    public static int calcuLength(String word1, String word2) {
         int length = 0;
-        int compareLength = Math.min(word1.word.length(), word2.word.length());
+        int compareLength = Math.min(word1.length(), word2.length());
 
         for (int i = 0; i < compareLength; i++) {
-            if (word1.word.charAt(i) == word2.word.charAt(i)) {
+            if (word1.charAt(i) == word2.charAt(i)) {
                 length++;
             } else {
                 break;
@@ -28,23 +25,21 @@ public class Main {
     }
 
     public static void printWords(StringClass word1, StringClass word2) {
+        String printWord1 = word1.word;
+        String printWord2 = word2.word;
+
         if (word1.originalIndex > word2.originalIndex) {
-            System.out.println(word2.word);
-            System.out.println(word1.word);
+            System.out.println(printWord2);
+            System.out.println(printWord1);
         } else {
-            System.out.println(word1.word);
-            System.out.println(word2.word);
+            System.out.println(printWord1);
+            System.out.println(printWord2);
         }
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
-
-        if (N < 2) {
-            System.out.println("Not enough words to compare.");
-            return;
-        }
 
         List<StringClass> wordsList = new ArrayList<>();
 
@@ -56,31 +51,34 @@ public class Main {
             wordsList.add(s);
         }
 
-        // 사전순 정렬
-        sortList(wordsList);
-
         int maxLength = -1;
-        StringClass firstWord = null;
-        StringClass secondWord = null;
+        StringClass solWord1 = null;
+        StringClass solWord2 = null;
 
         for (int i = 0; i < wordsList.size() - 1; i++) {
-            StringClass s1 = wordsList.get(i);
-            StringClass s2 = wordsList.get(i + 1);
+            for (int j = i + 1; j < wordsList.size(); j++) {
+                String word1 = wordsList.get(i).word;
+                String word2 = wordsList.get(j).word;
 
-            int currentLength = calcuLength(s1, s2);
+                if (word1.equals(word2)) {
+                    continue;
+                }
 
-            if (currentLength > maxLength ||
-                    (currentLength == maxLength && (s1.originalIndex < firstWord.originalIndex ||
-                            (s1.originalIndex == firstWord.originalIndex && s2.originalIndex < secondWord.originalIndex)))) {
-                maxLength = currentLength;
-                firstWord = s1;
-                secondWord = s2;
+                int currentLength = calcuLength(word1, word2);
+
+                if (currentLength > maxLength) {
+                    maxLength = currentLength;
+
+                    solWord1 = new StringClass();
+                    solWord1.word = word1;
+                    solWord1.originalIndex = wordsList.get(i).originalIndex;
+
+                    solWord2 = new StringClass();
+                    solWord2.word = word2;
+                    solWord2.originalIndex = wordsList.get(j).originalIndex;
+                }
             }
         }
-
-        // 출력
-        if (firstWord != null && secondWord != null) {
-            printWords(firstWord, secondWord);
-        }
+        printWords(solWord1, solWord2);
     }
 }
