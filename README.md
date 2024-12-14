@@ -2,3 +2,6 @@
 ### Meet in the Middle
 ### Two Pointer
 ### Parametric search
+### BFS
+### DFS
+### Trie
