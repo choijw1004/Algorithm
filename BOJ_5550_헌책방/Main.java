@@ -15,18 +15,19 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        int N = sc.nextInt();
-        int K = sc.nextInt();
+        int bookCount = sc.nextInt();
+        int sellCount = sc.nextInt();
 
-        int[][] books = new int[N][K];
+        int[][] priceAndGenre = new int[10][bookCount];
 
-         for(int i = 0; i < N; i++){
-             for(int j = 0; j < K; j++){
-                 books[i][j] = sc.nextInt();
-             }
-         }
 
-         printList(books);
+        for(int i = 0 ; i < bookCount; i++){
+            int price = sc.nextInt();
+            int genre = sc.nextInt() + 1;
+
+            
+
+        }
 
 
     }
