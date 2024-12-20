@@ -5,3 +5,4 @@
 ### BFS
 ### DFS
 ### Trie
+### BST
