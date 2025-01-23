@@ -4,14 +4,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        String s = " a12 a b c 3 ";
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println(s);
+        int N = sc.nextInt(); // 숫자 입력
 
-        System.out.println(s);
-        System.out.println(s);
-        System.out.println(s);
-        System.out.println(s);
+        System.out.println(N);
+
 
     }
 }
