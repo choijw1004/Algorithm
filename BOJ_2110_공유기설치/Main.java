@@ -17,9 +17,9 @@ public class Main {
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         // N 집의 개수, C, 공유기의 개수
         // return 가장 긴 공유기의 거리
+
 
         int N = sc.nextInt();
         int C = sc.nextInt();
