@@ -21,6 +21,8 @@ class Solution {
             answer += (n - curr) / cover;
         }
 
+        cover = answer;
+
 
         return answer;
     }
