@@ -6,23 +6,22 @@ class Solution {
         int cover = w * 2 + 1;
         int curr = 1;
 
-        for(int station : stations){
+        for (int station : stations) {
             int leftCover = station - w;
             int rightCover = station + w;
 
-            if(curr < leftCover){
-
-                answer += (leftCover - curr -1) / cover;
+            if (curr < leftCover) {
+                int gap = leftCover - curr;
+                answer += (gap + cover - 1) / cover;
             }
+
             curr = rightCover + 1;
         }
 
-        if(curr <= n){
-            answer += (n - curr) / cover;
+        if (curr <= n) {
+            int gap = n - curr + 1;
+            answer += (gap + cover - 1) / cover;
         }
-
-        cover = answer;
-
 
         return answer;
     }
