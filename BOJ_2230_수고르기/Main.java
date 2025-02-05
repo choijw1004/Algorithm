@@ -16,26 +16,20 @@ public class Main {
         Arrays.sort(nums);
 
         int left = 0;
-        int right = N - 1;
+        int right = 0;
+
         int ans = Integer.MAX_VALUE;
 
-        while(left <= right){
+        while(left < N && right < N) {
             int diff = nums[right] - nums[left];
 
-            if(diff == mindiff){
-                System.out.println(diff);
-                return;
-            }
-
-            if(diff < mindiff){
+            if(diff >= mindiff){
+                ans = Math.min(diff, ans);
                 left++;
             }
-
-            if(diff > mindiff){
-                ans = Math.min(ans, diff);
-                right--;
+            else{
+                right++;
             }
-
         }
         System.out.println(ans);
     }
