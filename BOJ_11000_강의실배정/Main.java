@@ -15,12 +15,13 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int N = sc.nextInt();
-
         List<Lecture> lectures = new ArrayList<>();
 
         for(int i = 0 ; i < N; i++){
             lectures.add(new Lecture(sc.nextInt(), sc.nextInt()));
         }
+
+        HashMap<Integer, Integer> a = new HashMap<>();
 
         Collections.sort(lectures, (s1, s2) ->  s1.start - s2.start);
 
