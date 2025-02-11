@@ -1,4 +1,5 @@
-package BOJ_3151_합0;import java.util.*;
+package BOJ_3151_합0;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
