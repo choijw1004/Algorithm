@@ -15,7 +15,6 @@ public class Main {
 
         for(int i = 0 ; i < N; i++){
             while(!stack.isEmpty() && stack.peek() < nums[i]){
-                stack.
             }
 
             stack.push(i);
@@ -23,7 +22,6 @@ public class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            sb.append(ans[i]).append(" ");
         }
         System.out.println(sb);
 
