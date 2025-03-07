@@ -17,21 +17,21 @@ public class Main {
 
             for(int j = 0 ; j < M; j++){
                 if(j == 0){
-                    dp[i][j] = Math.min(dp[i-1][j], dp[i-1][j+1]) + map[i][j];
+//                    dp[i][j] = Math.min(dp[i-1][j], dp[i-1][j+1]) + map[i][j];
                 }
 
                 else if(j == M - 1){
-                    dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]) + map[i][j];
+//                    dp[i][j] = Math.min(dp[i-1][j-1], dp[i-1][j]) + map[i][j];
                 }
                 else{
-                    dp[i][j] = Math.min(Math.min(dp[i-1][j-1], dp[i-1][j]),dp[i-1][j+1]) + map[i][j];
+//                    dp[i][j] = Math.min(Math.min(dp[i-1][j-1], dp[i-1][j]),dp[i-1][j+1]) + map[i][j];
                 }
             }
         }
 
 
         for(int i = 0 ; i < M; i++){
-            ans = Math.min(dp[N-1][i], ans);
+//            ans = Math.min(dp[N-1][i], ans);
         }
 
         for(int i = 0 ; i < N; i++){
