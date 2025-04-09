@@ -3,24 +3,32 @@ import java.util.*;
 
 public class Main {
     public static String solution(int n, int m, int k, int[] points){
-        int[] ans = new int[k];
-        //직선 n
-        //심판수 m
-        //심판위치
-
-
-        int left = 1;
-        int right = n;
+        int left = 0;
+        int right = m;
+        String ans = "";
 
         while(left <= right){
+            int mid = (left + right) / 2;
+            StringBuilder sb = new StringBuilder();
+            int cnt = 0;
 
-            int mid = (left + right) /2;
+            for(int i = 0; i < points.length-1; i++){
+                if(points[i+1] - points[i] >= mid && points[i+1] == points[i] + mid) {
+                    cnt++;
+                    sb.append(1);
+                }
+                else sb.append(0);
+            }
 
-
-
+            if(cnt >= m){
+                left = mid +1;
+                ans = sb.toString();
+            }
+            else right = mid -1;
         }
 
-        return Arrays.toString(ans);
+        return ans;
+
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
