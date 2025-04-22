@@ -24,7 +24,7 @@ public class Main {
     HashMap<String, Integer> hm = new HashMap<>();
     char c= '1';
     Queue<Integer> q = new LinkedList<>();
-    
+    HashSet<Integer> hs = new HashSet<>();
     int[] ans = new int[list.size()];
     Deque<String> dq = new LinkedList<>();
     }
