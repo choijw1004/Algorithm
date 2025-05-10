@@ -27,5 +27,7 @@ public class Main {
     HashSet<Integer> hs = new HashSet<>();
     int[] ans = new int[list.size()];
     Deque<String> dq = new LinkedList<>();
+    Double a  = Double.MAX_VALUE;
+
     }
 }
