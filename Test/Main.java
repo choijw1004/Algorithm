@@ -28,6 +28,5 @@ public class Main {
     int[] ans = new int[list.size()];
     Deque<String> dq = new LinkedList<>();
     Double a  = Double.MAX_VALUE;
-
     }
 }
