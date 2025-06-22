@@ -1,56 +1,56 @@
 package BOJ_20440_니싫내싫;
-
 import java.util.*;
+
+class Time {
+    long start, end;
+    public Time(long start, long end) {
+        this.start = start;
+        this.end = end;
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int[] starts = new int[N];
-        int[] ends   = new int[N];
-        for (int i = 0; i < N; i++) {
-            starts[i] = sc.nextInt();
-            ends[i]   = sc.nextInt();
+        int n = sc.nextInt();
+        long[][] arr = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            arr[i][0] = sc.nextLong();
+            arr[i][1] = sc.nextLong();
         }
-        sc.close();
 
-        // 1) 정렬
-        Arrays.sort(starts);
-        Arrays.sort(ends);
+        Arrays.sort(arr, Comparator.comparingLong(a -> a[0]));
 
-        // 2) 투 포인터 스윕
-        int i = 0, j = 0;
-        int curr = 0, maxCnt = 0;
-        int maxStart = 0, maxEnd = 0;
-        boolean inMaxInterval = false;
+        PriorityQueue<Time> queue = new PriorityQueue<>(
+                (t1, t2) -> t1.end != t2.end
+                        ? Long.compare(t1.end, t2.end)
+                        : Long.compare(t2.start, t1.start)
+        );
 
-        // 입장·퇴장 이벤트를 모두 처리
-        while (i < N || j < N) {
-            // 입장만 남았거나, (입장 < 퇴장)일 땐 입장 이벤트
-            if (j == N || (i < N && starts[i] < ends[j])) {
-                curr++;
-                // 최대가 되면 구간 시작 기록
-                if (curr > maxCnt) {
-                    maxCnt = curr;
-                    maxStart = starts[i];
-                    inMaxInterval = true;
-                }
-                i++;
+        int maxCount = 0;
+        long bestStart = 0, bestEnd = 0;
+
+        for (int i = 0; i < n; i++) {
+            long curStart = arr[i][0];
+            long curEnd = arr[i][1];
+
+            while (!queue.isEmpty() && curStart > queue.peek().end) {
+                queue.poll();
             }
-            // 그 외(퇴장만 남았거나 퇴장이 앞서면) 퇴장 이벤트
-            else {
-                // 최대 구간이 끝나면 구간 종료 기록
-                if (inMaxInterval && curr == maxCnt) {
-                    maxEnd = ends[j];
-                    inMaxInterval = false;
-                }
-                curr--;
-                j++;
+            if (!queue.isEmpty() && curStart == queue.peek().end) {
+                queue.poll();
+            }
+
+            queue.add(new Time(curStart, curEnd));
+
+            if (queue.size() > maxCount) {
+                maxCount = queue.size();
+                bestStart = curStart;
+                bestEnd = queue.peek().end;
             }
         }
 
-        // 3) 결과 출력
-        System.out.println(maxCnt);
-        System.out.printf("%d %d\n", maxStart, maxEnd);
+        System.out.println(maxCount);
+        System.out.println(bestStart + " " + bestEnd);
     }
 }
