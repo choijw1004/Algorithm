@@ -11,7 +11,6 @@ public class Main {
         visited[start] = true;
         dist[start]    = 0;
         q.offer(start);
-
         while(!q.isEmpty()){
             int cur = q.poll();
             for(int nxt : graph[cur]){
