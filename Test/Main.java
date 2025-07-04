@@ -20,12 +20,11 @@ public class Main {
     StringBuilder sb = new StringBuilder();
     System.out.println(Integer.toString(1231230000,2));
     sb.append(s.substring(0,3));
-    List<Integer>list = new ArrayList<>();
     HashMap<String, Integer> hm = new HashMap<>();
     char c= '1';
     Queue<Integer> q = new LinkedList<>();
     HashSet<Integer> hs = new HashSet<>();
-    int[] ans = new int[list.size()];
+
     Deque<String> dq = new LinkedList<>();
     Double a  = Double.MAX_VALUE;
     }
