@@ -1,31 +1,25 @@
 package Test;
-import java.util.*;
-class Plan{
-    String name;
-    int hour;
-    int minute;
-    int playtime;
 
-    Plan(String name, int hour, int minute, int playtime){
-        this.name = name;
-        this.hour = hour;
-        this.minute = minute;
-        this.playtime = playtime;
-    }
+import java.util.Scanner;
 
-}
 public class Main {
+    static int r,c,sx,sy;
+    static int[][] map;
     public static void main(String[] args) {
-    String s = "123456";
-    StringBuilder sb = new StringBuilder();
-    System.out.println(Integer.toString(1231230000,2));
-    sb.append(s.substring(0,3));
-    HashMap<String, Integer> hm = new HashMap<>();
-    char c= '1';
-    Queue<Integer> q = new LinkedList<>();
-    HashSet<Integer> hs = new HashSet<>();
+        Scanner sc = new Scanner(System.in);
 
-    Deque<String> dq = new LinkedList<>();
-    Double a  = Double.MAX_VALUE;
+        r = sc.nextInt();
+        c = sc.nextInt();
+
+        int[][] map = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                map[i][j] = sc.nextInt();
+            }
+        }
+
+        sx= sc.nextInt();
+        sy = sc.nextInt();
+
     }
 }
