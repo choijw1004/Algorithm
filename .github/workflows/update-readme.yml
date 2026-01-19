@@ -16,14 +16,108 @@ jobs:
     steps:
       - name: code checkout
         uses: actions/checkout@v4
-          
+        with:
+          fetch-depth: 2
+
       - name: run update_readme.py
         run: python scripts/update_readme.py
-        
-      - name: commit
+
+      - name: commit to algorithm repo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           git diff --staged --quiet || git commit -m "docs: update README.md"
           git push
+
+      - name: get latest problem info
+        id: problem_info
+        run: |
+          LATEST_DIR=$(find src/ver2 -type d -maxdepth 1 -mindepth 1 -printf '%T@ %p\n' | sort -rn | head -1 | cut -d' ' -f2)
+          
+          if [ -z "$LATEST_DIR" ]; then
+            echo "No problem directory found"
+            exit 0
+          fi
+          
+          PROBLEM_NAME=$(basename "$LATEST_DIR")
+          README_FILE="$LATEST_DIR/README.md"
+          
+          if [ ! -f "$README_FILE" ]; then
+            echo "README not found"
+            exit 0
+          fi
+          
+          PROBLEM_TITLE=$(grep -m 1 "^# " "$README_FILE" | sed 's/# //')
+          PROBLEM_LINK=$(grep -A 1 "## 문제 링크" "$README_FILE" | tail -1)
+          CATEGORIES=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | sed 's/`//g')
+          FIRST_CATEGORY=$(echo "$CATEGORIES" | awk '{print $1}')
+          
+          APPROACH=$(sed -n '/## 접근 방식/,/## 코드/p' "$README_FILE" | sed '1d;$d')
+          
+          cat "$README_FILE" > /tmp/problem_readme.md
+          
+          echo "problem_name=$PROBLEM_TITLE" >> $GITHUB_OUTPUT
+          echo "first_category=$FIRST_CATEGORY" >> $GITHUB_OUTPUT
+          echo "readme_exists=true" >> $GITHUB_OUTPUT
+
+      - name: checkout blog repo
+        if: steps.problem_info.outputs.readme_exists == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: choijw1004/choijw1004.github.io
+          token: ${{ secrets.BLOG_PAT }}
+          path: blog-repo
+
+      - name: create blog post with incremental number
+        if: steps.problem_info.outputs.readme_exists == 'true'
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          DATETIME=$(date +"%Y-%m-%d %H:%M:%S +0900")
+          
+          cd blog-repo/_posts
+          
+          LAST_NUM=$(ls ${DATE}-*.md 2>/dev/null | \
+                     sed "s/${DATE}-\([0-9]*\)\.md/\1/" | \
+                     sort -n | \
+                     tail -1)
+          
+          if [ -z "$LAST_NUM" ]; then
+            NEXT_NUM=0
+          else
+            NEXT_NUM=$((LAST_NUM + 1))
+          fi
+          
+          FILENAME="${DATE}-${NEXT_NUM}.md"
+          
+          cd ../..
+          
+          # Front matter 작성
+          cat > blog-repo/_posts/${FILENAME} << EOF
+          ---
+          layout: post
+          title: "[Algorithm] ${{ steps.problem_info.outputs.problem_name }}"
+          description: "${{ steps.problem_info.outputs.problem_name }} 접근방식"
+          date: ${DATETIME}
+          tags:
+            - Algorithm
+          author: choijangwoo
+          toc: true
+          published: true
+          categories: [Algorithm, ${{ steps.problem_info.outputs.first_category }}]
+          ---
+          
+          EOF
+          
+          cat /tmp/problem_readme.md >> blog-repo/_posts/${FILENAME}
+          
+          echo "Created: ${FILENAME}"
+
+      - name: commit to blog repo
+        if: steps.problem_info.outputs.readme_exists == 'true'
+        run: |
+          cd blog-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git diff --staged --quiet || (git commit -m "docs: add algorithm problem post" && git push)
