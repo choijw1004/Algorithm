@@ -103,7 +103,7 @@ jobs:
           author: choijangwoo
           toc: true
           published: true
-          categories: [Algorithm, ${{ steps.problem_info.outputs.first_category }}]
+          categories: [Algorithm, ${{ steps.problem_info.outputs.all_categories }}]
           ---
           
           EOF
