@@ -40,7 +40,6 @@ jobs:
             exit 0
           fi
           
-          PROBLEM_NAME=$(basename "$LATEST_DIR")
           README_FILE="$LATEST_DIR/README.md"
           
           if [ ! -f "$README_FILE" ]; then
@@ -49,15 +48,18 @@ jobs:
           fi
           
           PROBLEM_TITLE=$(grep -m 1 "^# " "$README_FILE" | sed 's/# //')
-          PROBLEM_LINK=$(grep -A 1 "## 문제 링크" "$README_FILE" | tail -1)
-          ALL_CATEGORIES=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | grep -oP '`\K[^`]+' | paste -sd ',' -)
           
-          APPROACH=$(sed -n '/## 접근 방식/,/## 코드/p' "$README_FILE" | sed '1d;$d')
+          FIRST_CATEGORY=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | sed 's/.*`\([^`]*\)`.*/\1/')
+          
+          ALL_CATEGORIES=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | grep -o '`[^`]*`' | sed 's/`//g')
           
           cat "$README_FILE" > /tmp/problem_readme.md
           
           echo "problem_name=$PROBLEM_TITLE" >> $GITHUB_OUTPUT
-          echo "all_categories=$ALL_CATEGORIES" >> $GITHUB_OUTPUT
+          echo "first_category=$FIRST_CATEGORY" >> $GITHUB_OUTPUT
+          echo "all_categories<<EOF" >> $GITHUB_OUTPUT
+          echo "$ALL_CATEGORIES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
           echo "readme_exists=true" >> $GITHUB_OUTPUT
 
       - name: checkout blog repo
@@ -88,10 +90,8 @@ jobs:
           fi
           
           FILENAME="${DATE}-${NEXT_NUM}.md"
-          
           cd ../..
           
-          # Front matter 작성
           cat > blog-repo/_posts/${FILENAME} << EOF
           ---
           layout: post
@@ -100,10 +100,19 @@ jobs:
           date: ${DATETIME}
           tags:
             - Algorithm
+          EOF
+          
+          echo "${{ steps.problem_info.outputs.all_categories }}" | while IFS= read -r category; do
+            if [ ! -z "$category" ]; then
+              echo "    - ${category}" >> blog-repo/_posts/${FILENAME}
+            fi
+          done
+          
+          cat >> blog-repo/_posts/${FILENAME} << EOF
           author: choijangwoo
           toc: true
           published: true
-          categories: [Algorithm, ${{ steps.problem_info.outputs.all_categories }}]
+          categories: [Algorithm, ${{ steps.problem_info.outputs.first_category }}]
           ---
           
           EOF
