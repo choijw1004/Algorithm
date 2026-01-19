@@ -50,8 +50,7 @@ jobs:
           
           PROBLEM_TITLE=$(grep -m 1 "^# " "$README_FILE" | sed 's/# //')
           PROBLEM_LINK=$(grep -A 1 "## 문제 링크" "$README_FILE" | tail -1)
-          CATEGORIES=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | sed 's/`//g')
-          FIRST_CATEGORY=$(echo "$CATEGORIES" | awk '{print $1}')
+          FIRST_CATEGORY=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | grep -oP '`\K[^`]+' | head -1)
           
           APPROACH=$(sed -n '/## 접근 방식/,/## 코드/p' "$README_FILE" | sed '1d;$d')
           
