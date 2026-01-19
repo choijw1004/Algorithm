@@ -12,8 +12,14 @@
 ## 유클리드 호재법
 - [BOJ_2609_최대공약수와최소공배수](./src/ver2/BOJ_2609_최대공약수와최소공배수/README.md)
 
+## 자료구조
+- [BOJ_1158_요세푸스문제](./src/ver2/BOJ_1158_요세푸스문제/README.md)
+
 ## 정렬
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
+
+## 큐
+- [BOJ_1158_요세푸스문제](./src/ver2/BOJ_1158_요세푸스문제/README.md)
 
 ## 투 포인터
 - [Leet_9_PalindromeNumber](./src/ver2/Leet_9_PalindromeNumber/README.md)
