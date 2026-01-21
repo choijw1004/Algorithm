@@ -1,4 +1,4 @@
-package Leet_1297_MaximumNumberofOccurrencesofaSubstring;
+package ver2.Leet_1297_MaximumNumberofOccurrencesofaSubstring;
 
 import java.util.*;
 
