@@ -8,7 +8,6 @@ from pathlib import Path
 PROBLEMS_DIR = './src/ver2'
 
 def get_staged_java_files():
-    """스테이징된 src/ver2 Java 파일"""
     result = subprocess.run(
         ['git', 'diff', '--cached', '--name-only'],
         capture_output=True,
@@ -26,7 +25,6 @@ def read_file(file_path):
         return None
 
 def extract_metadata(content):
-    """주석에서 메타데이터 추출"""
     # 문제 링크
     link_match = re.search(r'# 문제 링크\s*\n\s*([^\n]+)', content)
     problem_link = link_match.group(1).strip() if link_match else None
@@ -48,7 +46,6 @@ def extract_metadata(content):
     }
 
 def analyze_with_ollama(problem_link):
-    """Ollama로 문제 정보 분석 (디렉토리명 + 커밋 메시지)"""
 
     prompt = f"""전달해준 문제 링크를 분석해서 다음 정보를 추출해줘.
 
@@ -109,7 +106,6 @@ def analyze_with_ollama(problem_link):
         return None, None, None
 
 def generate_directory_name(platform, number, title):
-    """디렉토리 이름 생성"""
     if platform == "PGMS":
         return f"{platform}_{title}"
     elif number:
@@ -118,16 +114,14 @@ def generate_directory_name(platform, number, title):
         return f"{platform}_{title}"
 
 def generate_commit_message(platform, number, title):
-    """커밋 메시지 생성"""
     if platform == "PGMS":
-        return f"docs: {platform}_{title}"
+        return f"feat: {platform}_{title}"
     elif number:
-        return f"docs: {platform}_{number}_{title}"
+        return f"feat: {platform}_{number}_{title}"
     else:
-        return f"docs: {platform}_{title}"
+        return f"feat: {platform}_{title}"
 
 def create_problem_directory(dir_name, java_file, content, metadata):
-    """문제 디렉토리 생성 및 파일 이동"""
 
     # 디렉토리 생성
     problem_dir = Path(PROBLEMS_DIR) / dir_name
@@ -210,12 +204,12 @@ def main():
     metadata = extract_metadata(content)
 
     if not metadata['problem_link']:
-        commit_msg = "docs: 알고리즘_문제해결"
+        commit_msg = "feat: 알고리즘_문제해결"
     else:
         platform, number, title = analyze_with_ollama(metadata['problem_link'])
 
         if not platform or not title:
-            commit_msg = "docs: 알고리즘_문제해결"
+            commit_msg = "feat: 알고리즘_문제해결"
         else:
             dir_name = generate_directory_name(platform, number, title)
             print(f"디렉토리명: {dir_name}")

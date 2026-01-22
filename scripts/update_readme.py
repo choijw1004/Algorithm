@@ -39,27 +39,6 @@ def parse_problem_file(file_path):
     }
 
 
-def generate_problem_readme(problem_name, metadata):
-    categories_str = ' '.join([f'`{c}`' for c in metadata['categories']])
-    
-    return f"""# {problem_name}
-
-## 문제 링크
-{metadata['problem_link']}
-
-## 카테고리
-{categories_str}
-
-## 접근 방식
-{metadata['approach']}
-
-## 코드
-```java
-{metadata['code']}
-```
-"""
-
-
 def generate_main_readme(problems_by_category):
     # 고정 헤더
     content = """# Algorithm, PS Repository
@@ -70,7 +49,6 @@ def generate_main_readme(problems_by_category):
 
 ## Algorithm 분류
 
----
 """
 
 
@@ -105,11 +83,6 @@ def main():
         metadata = parse_problem_file(java_files[0])
         if not metadata:
             continue
-        
-        # 개별 문제 README 생성
-        problem_readme = generate_problem_readme(problem_name, metadata)
-        with open(problem_path / 'README.md', 'w', encoding='utf-8') as f:
-            f.write(problem_readme)
         
         # 카테고리 분류
         readme_path = f"./src/ver2/{problem_name}/README.md"
