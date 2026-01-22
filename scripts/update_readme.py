@@ -61,8 +61,15 @@ def generate_problem_readme(problem_name, metadata):
 
 
 def generate_main_readme(problems_by_category):
-    content = "# 알고리즘 풀이\n\n"
-    
+    # 고정 헤더
+    content = """# Algorithm, PS Repository
+
+- [Github Actions 적용 전 repository ver 1](https://github.com/choijw1004/Algorithm/tree/main/src/ver1)
+- [Github Actions 적용 후 repository ver 2 (현재)](https://github.com/choijw1004/Algorithm/tree/main/src/ver2)
+
+    """
+
+
     for category in sorted(problems_by_category.keys()):
         content += f"## {category}\n"
         
