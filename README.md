@@ -24,6 +24,7 @@
 - [Leet_2090_KRadiusSubarrayAverages](./src/ver2/Leet_2090_KRadiusSubarrayAverages/README.md)
 - [Leet_1297_MaximumNumberofOccurrencesofaSubstring](./src/ver2/Leet_1297_MaximumNumberofOccurrencesofaSubstring/README.md)
 - [Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength](./src/ver2/Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength/README.md)
+- [Leet_1343_NumberofSubarraysofSizeKandAverageGreaterthanorEqualtoThreshold](./src/ver2/Leet_1343_NumberofSubarraysofSizeKandAverageGreaterthanorEqualtoThreshold/README.md)
 
 ## 유클리드 호재법
 - [BOJ_2609_최대공약수와최소공배수](./src/ver2/BOJ_2609_최대공약수와최소공배수/README.md)
