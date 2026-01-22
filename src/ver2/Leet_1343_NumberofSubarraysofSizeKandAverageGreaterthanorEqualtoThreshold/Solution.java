@@ -27,3 +27,14 @@ class Solution {
         return ans;
     }
 }
+
+/*
+# 카테고리
+슬라이딩 윈도우
+
+# 접근 방식
+일반적인 고정된 슬라이딩 윈도우 문제이기에 비슷한 방법으로 풀었다.
+
+# 문제 링크
+https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/
+ */

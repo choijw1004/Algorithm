@@ -33,8 +33,7 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          NEW_JAVA=$(git diff --name-only --diff-filter=A HEAD~1 HEAD | grep 'src/ver2/.*\.java$' | head -1)
-          LATEST_DIR=$(dirname "$NEW_JAVA")
+          LATEST_DIR=$(find src/ver2 -type d -maxdepth 1 -mindepth 1 -printf '%T@ %p\n' | sort -rn | head -1 | cut -d' ' -f2)
           
           if [ -z "$LATEST_DIR" ]; then
             echo "No problem directory found"
