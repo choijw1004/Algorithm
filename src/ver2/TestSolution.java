@@ -6,7 +6,7 @@ DFS, BFS
 # 접근 방식
 DFS와 BFS를 모두 구현하는 기본 문제
 # 문제 링크
-https://www.acmicpc.net/problem/1260
+https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
 */
 
 public class TestSolution {
