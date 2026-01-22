@@ -1,4 +1,4 @@
-package ver2.Leet_11_Container_With_Most_Water;
+package ver2;
 
 class Solution {
 
