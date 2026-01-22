@@ -41,9 +41,9 @@ def generate_commit_message(problem_link):
 
 규칙:
 1. 문제 이름의 띄어쓰기는 언더바(_)로 변경
-2. 영어는 각 단어 첫글자 대문자
-3. 한 줄로만 작성
-4. "docs:"로 시작
+2. 반드시 "docs: "로 시작 (콜론 뒤에 공백 있음)
+3. 문제 이름은 원본 그대로 유지 (예: "DFS와 BFS" → "DFS와BFS", 띄어쓰기만 제거)
+4. 한 줄로만 작성
 
 예시:
 docs: Leet_2090_K_Radius_Subarray_Averages
