@@ -206,6 +206,7 @@ def main():
     if not metadata['problem_link']:
         commit_msg = "feat: 알고리즘_문제해결"
     else:
+        print("ollama 시작")
         platform, number, title = analyze_with_ollama(metadata['problem_link'])
 
         if not platform or not title:
