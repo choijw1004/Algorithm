@@ -1,6 +1,5 @@
 # 알고리즘 풀이
-- [Github Actions 적용 전 repository ver 1](https://github.com/choijw1004/Algorithm/tree/main/src/ver1)
-- [Github Actions 적용 후 repository ver 2 (현재)](https://github.com/choijw1004/Algorithm/tree/main/src/ver2)
+
 ## 2차원 배열
 - [Leet_54_SpiralMatrix](./src/ver2/Leet_54_SpiralMatrix/README.md)
 
@@ -11,6 +10,7 @@
 - [BOJ_2609_최대공약수와최소공배수](./src/ver2/BOJ_2609_최대공약수와최소공배수/README.md)
 
 ## 슬라이딩 윈도우
+- [Leet_643_Maximum_Average_Subarray_I](./src/ver2/Leet_643_Maximum_Average_Subarray_I/README.md)
 - [Leet_1876_SubstringsofSizeThreewithDistinctCharacters](./src/ver2/Leet_1876_SubstringsofSizeThreewithDistinctCharacters/README.md)
 - [Leet_1297_MaximumNumberofOccurrencesofaSubstring](./src/ver2/Leet_1297_MaximumNumberofOccurrencesofaSubstring/README.md)
 - [Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength](./src/ver2/Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength/README.md)
