@@ -11,6 +11,6 @@ https://www.acmicpc.net/problem/1260
 
 public class TestSolution {
     public static void main(String[] args) {
-        System.out.println("DFS BFS Test");
+        System.out.println("V1");
     }
 }
