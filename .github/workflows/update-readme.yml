@@ -33,13 +33,17 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          LATEST_DIR=$(find src/ver2 -type d -maxdepth 1 -mindepth 1 -printf '%T@ %p\n' | sort -rn | head -1 | cut -d' ' -f2)
-          
-          if [ -z "$LATEST_DIR" ]; then
-            echo "No problem directory found"
+          # 커밋 메시지에서 디렉토리명 추출
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          DIR_NAME=$(echo "$COMMIT_MSG" | sed 's/feat: //')
+
+          LATEST_DIR="src/ver2/$DIR_NAME"
+
+          if [ ! -d "$LATEST_DIR" ]; then
+            echo "Directory not found: $LATEST_DIR"
             exit 0
           fi
-          
+
           README_FILE="$LATEST_DIR/README.md"
           
           if [ ! -f "$README_FILE" ]; then

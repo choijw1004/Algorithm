@@ -1,17 +1,4 @@
-# Leet_3_Longest_Substring_Without_Repeating_Characters
-
-## 문제 링크
-https://leetcode.com/problems/longest-substring-without-repeating-characters/description/
-
-## 카테고리
-`투 포인터`
-
-## 접근 방식
-투 포인터로 해결한 문제이다.
-
-## 코드
-```java
-package ver2.Leet_3_Longest_Substring_Without_Repeating_Characters;
+package ver2.Leet_11_Container_With_Most_Water;
 
 import java.util.*;
 
@@ -61,4 +48,15 @@ class Solution {
         return maxArea;
     }
 }
-```
+
+/*
+# 카테고리
+투 포인터
+
+# 접근 방식
+투 포인터로 해결한 문제이다.
+
+# 문제 링크
+https://leetcode.com/problems/container-with-most-water/
+
+ */
