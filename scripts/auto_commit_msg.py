@@ -1,7 +1,11 @@
 import sys
+import os
 import subprocess
 import ollama
 import re
+from pathlib import Path
+
+PROBLEMS_DIR = './src/ver2'
 
 def get_staged_java_files():
     """스테이징된 src/ver2 Java 파일"""
@@ -21,38 +25,66 @@ def read_file(file_path):
     except:
         return None
 
-def extract_problem_link(content):
-    """주석에서 문제 링크 추출"""
-    match = re.search(r'# 문제 링크\s*\n\s*([^\n]+)', content)
-    return match.group(1).strip() if match else None
+def extract_metadata(content):
+    """주석에서 메타데이터 추출"""
+    # 문제 링크
+    link_match = re.search(r'# 문제 링크\s*\n\s*([^\n]+)', content)
+    problem_link = link_match.group(1).strip() if link_match else None
 
-def generate_commit_message(problem_link):
-    """Ollama로 커밋 메시지 생성"""
+    # 카테고리
+    category_match = re.search(r'# 카테고리\s*\n([^\n#]+)', content)
+    categories = []
+    if category_match:
+        categories = [c.strip() for c in category_match.group(1).split(',') if c.strip()]
 
-    prompt = f"""전달해준 문제 링크를 바탕으로 문제 번호, 문제 이름을 추출해서 커밋 메시지를 작성해줘.
+    # 접근 방식
+    approach_match = re.search(r'# 접근 방식\s*\n([\s\S]*?)(?=\n# |$)', content)
+    approach = approach_match.group(1).strip() if approach_match else ''
+
+    return {
+        'problem_link': problem_link,
+        'categories': categories,
+        'approach': approach
+    }
+
+def analyze_with_ollama(problem_link):
+    """Ollama로 문제 정보 분석 (디렉토리명 + 커밋 메시지)"""
+
+    prompt = f"""전달해준 문제 링크를 분석해서 다음 정보를 추출해줘.
 
 문제 링크: {problem_link}
 
-플랫폼별 형식:
-- 리트코드: docs: Leet_문제번호_문제이름
-- 백준: docs: BOJ_문제번호_문제이름
-- 프로그래머스: docs: PGMS_문제이름 (문제 번호 없음)
+추출할 정보:
+1. 플랫폼 (백준/리트코드/프로그래머스)
+2. 문제 번호 (있으면)
+3. 문제 이름
+
+응답 형식 (반드시 이 형식으로):
+플랫폼|문제번호|문제이름
+
+문제 이름 처리 규칙:
+1. 한글 문제: 띄어쓰기만 제거, 나머지는 원본 그대로
+   - "DFS와 BFS" → "DFS와BFS"
+   - "이진 검색 트리" → "이진검색트리"
+2. 영문 문제: 각 단어 첫글자 대문자, 띄어쓰기는 언더바
+   - "k radius subarray averages" → "K_Radius_Subarray_Averages"
+   - "two sum" → "Two_Sum"
+3. 특수문자는 제거하지 말고 그대로 유지
+
+플랫폼별 예시:
+- 백준: BOJ|1260|DFS와BFS
+- 백준: BOJ|2580|스도쿠
+- 리트코드: Leet|2090|K_Radius_Subarray_Averages
+- 리트코드: Leet|1|Two_Sum
+- 프로그래머스: PGMS||네트워크 (문제 번호 없으면 비워두기)
+- 프로그래머스: PGMS||타겟넘버
 
 규칙:
-1. 문제 이름의 띄어쓰기는 언더바(_)로 변경
-2. 반드시 "docs: "로 시작 (콜론 뒤에 공백 있음)
-3. 문제 이름은 원본 그대로 유지 (예: "DFS와 BFS" → "DFS와BFS", 띄어쓰기만 제거)
-4. 한 줄로만 작성
-
-예시:
-docs: Leet_2090_K_Radius_Subarray_Averages
-docs: BOJ_1260_DFS와BFS
-docs: PGMS_네트워크
-
-커밋 메시지만 출력하고 다른 설명은 하지 마."""
+- 반드시 "플랫폼|문제번호|문제이름" 형식으로만 답해줘
+- 다른 설명이나 부연 설명 절대 추가하지 마
+- 한 줄로만 답해줘"""
 
     try:
-        print("Ollama가 커밋 메시지 생성 중")
 
         response = ollama.chat(
             model='qwen3:8b',
@@ -60,17 +92,83 @@ docs: PGMS_네트워크
             options={'temperature': 0.2}
         )
 
-        commit_msg = response['message']['content'].strip()
+        result = response['message']['content'].strip().split('\n')[0]
 
-        commit_msg = commit_msg.split('\n')[0].strip()
+        # 파싱
+        parts = result.split('|')
+        if len(parts) >= 3:
+            platform = parts[0].strip()
+            number = parts[1].strip() if parts[1].strip() else None
+            title = parts[2].strip()
+            return platform, number, title
 
-        if not commit_msg.startswith('docs:'):
-            commit_msg = 'docs: ' + commit_msg
-
-        return commit_msg
+        return None, None, None
 
     except Exception as e:
-        return "docs: 알고리즘_문제해결"
+        print(f"Ollama 에러: {e}")
+        return None, None, None
+
+def generate_directory_name(platform, number, title):
+    """디렉토리 이름 생성"""
+    if platform == "PGMS":
+        return f"{platform}_{title}"
+    elif number:
+        return f"{platform}_{number}_{title}"
+    else:
+        return f"{platform}_{title}"
+
+def generate_commit_message(platform, number, title):
+    """커밋 메시지 생성"""
+    if platform == "PGMS":
+        return f"docs: {platform}_{title}"
+    elif number:
+        return f"docs: {platform}_{number}_{title}"
+    else:
+        return f"docs: {platform}_{title}"
+
+def create_problem_directory(dir_name, java_file, content, metadata):
+    """문제 디렉토리 생성 및 파일 이동"""
+
+    problem_dir = Path(PROBLEMS_DIR) / dir_name
+    problem_dir.mkdir(parents=True, exist_ok=True)
+
+    java_filename = Path(java_file).name
+    new_java_path = problem_dir / java_filename
+
+    if Path(java_file).resolve() != new_java_path.resolve():
+        os.rename(java_file, new_java_path)
+        print(f"파일 이동: {java_file} -> {new_java_path}")
+
+    create_readme(problem_dir, dir_name, content, metadata)
+
+def create_readme(problem_dir, problem_name, java_content, metadata):
+    """개별 문제 README 생성"""
+
+    code = re.sub(r'/\*[\s\S]*?\*/', '', java_content).strip()
+
+    categories_str = ' '.join([f'`{c}`' for c in metadata['categories']])
+
+    readme_content = f"""# {problem_name}
+
+## 문제 링크
+{metadata['problem_link']}
+
+## 카테고리
+{categories_str}
+
+## 접근 방식
+{metadata['approach']}
+
+## 코드
+```java
+{code}
+```
+"""
+
+    with open(problem_dir / 'README.md', 'w', encoding='utf-8') as f:
+        f.write(readme_content)
+
+    print(f"README 생성: {problem_dir / 'README.md'}")
 
 def main():
     if len(sys.argv) < 2:
@@ -83,25 +181,34 @@ def main():
     if not java_files:
         sys.exit(0)
 
+    java_file = java_files[0]
 
     # 파일 읽기
-    content = read_file(java_files[0])
+    content = read_file(java_file)
     if not content:
         sys.exit(1)
 
-    # 문제 링크 추출
-    problem_link = extract_problem_link(content)
-    if not problem_link:
+    # 메타데이터 추출
+    metadata = extract_metadata(content)
+
+    if not metadata['problem_link']:
         commit_msg = "docs: 알고리즘_문제해결"
     else:
-        # 커밋 메시지 생성
-        commit_msg = generate_commit_message(problem_link)
+        platform, number, title = analyze_with_ollama(metadata['problem_link'])
 
-    # 파일에 작성
+        if not platform or not title:
+            commit_msg = "docs: 알고리즘_문제해결"
+        else:
+            dir_name = generate_directory_name(platform, number, title)
+            print(f"디렉토리명: {dir_name}")
+
+            commit_msg = generate_commit_message(platform, number, title)
+            print(f"커밋 메시지: {commit_msg}")
+
+            create_problem_directory(dir_name, java_file, content, metadata)
+
     with open(commit_msg_file, 'w', encoding='utf-8') as f:
         f.write(commit_msg)
-
-    print(f"커밋 메시지: {commit_msg}")
 
 if __name__ == '__main__':
     main()
