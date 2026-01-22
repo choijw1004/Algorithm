@@ -53,7 +53,7 @@ docs: PGMS_네트워크
 커밋 메시지만 출력하고 다른 설명은 하지 마."""
 
     try:
-        print("🤖 Ollama가 커밋 메시지를 생성하고 있습니다...")
+        print("Ollama가 커밋 메시지 생성 중")
 
         response = ollama.chat(
             model='qwen3:8b',
@@ -63,17 +63,14 @@ docs: PGMS_네트워크
 
         commit_msg = response['message']['content'].strip()
 
-        # 첫 줄만 추출
         commit_msg = commit_msg.split('\n')[0].strip()
 
-        # docs: 없으면 추가
         if not commit_msg.startswith('docs:'):
             commit_msg = 'docs: ' + commit_msg
 
         return commit_msg
 
     except Exception as e:
-        print(f"❌ Ollama 에러: {e}")
         return "docs: 알고리즘_문제해결"
 
 def main():
@@ -87,7 +84,6 @@ def main():
     if not java_files:
         sys.exit(0)
 
-    print(f"📄 분석 중: {java_files[0]}")
 
     # 파일 읽기
     content = read_file(java_files[0])
@@ -97,7 +93,6 @@ def main():
     # 문제 링크 추출
     problem_link = extract_problem_link(content)
     if not problem_link:
-        print("⚠️  문제 링크가 없습니다.")
         commit_msg = "docs: 알고리즘_문제해결"
     else:
         # 커밋 메시지 생성
@@ -107,7 +102,7 @@ def main():
     with open(commit_msg_file, 'w', encoding='utf-8') as f:
         f.write(commit_msg)
 
-    print(f"✅ 커밋 메시지: {commit_msg}")
+    print(f"커밋 메시지: {commit_msg}")
 
 if __name__ == '__main__':
     main()
