@@ -10,6 +10,7 @@
 - [BOJ_2609_최대공약수와최소공배수](./src/ver2/BOJ_2609_최대공약수와최소공배수/README.md)
 
 ## 슬라이딩 윈도우
+- [Leet_1423_Maximum_Points_You_Can_Obtain_from_Cards](./src/ver2/Leet_1423_Maximum_Points_You_Can_Obtain_from_Cards/README.md)
 - [Leet_643_Maximum_Average_Subarray_I](./src/ver2/Leet_643_Maximum_Average_Subarray_I/README.md)
 - [Leet_1876_SubstringsofSizeThreewithDistinctCharacters](./src/ver2/Leet_1876_SubstringsofSizeThreewithDistinctCharacters/README.md)
 - [Leet_1297_MaximumNumberofOccurrencesofaSubstring](./src/ver2/Leet_1297_MaximumNumberofOccurrencesofaSubstring/README.md)
