@@ -15,6 +15,7 @@ class Solution {
             height = heights[leftPoint];
         }
 
+
         area = width * height;
 
         return area;
