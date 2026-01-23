@@ -42,7 +42,6 @@ class Solution {
                 rightPoint--;
             }
         }
-
         return maxArea;
     }
 }
