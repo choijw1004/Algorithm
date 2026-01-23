@@ -142,4 +142,3 @@ jobs:
           git pull --rebase --autostash || git pull --no-rebase
           
           git push
-          fi
