@@ -4,7 +4,7 @@
 https://leetcode.com/problems/container-with-most-water/
 
 ## 카테고리
-
+`투 포인터`
 
 ## 접근 방식
 투 포인터로 해결한 문제이다.
