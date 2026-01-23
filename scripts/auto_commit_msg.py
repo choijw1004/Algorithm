@@ -128,16 +128,17 @@ def create_problem_directory(dir_name, java_file, content, metadata):
     problem_dir = Path(PROBLEMS_DIR) / dir_name
     problem_dir.mkdir(parents=True, exist_ok=True)
 
+    dir_name_safe = dir_name.replace('-', '_')
     modified_content = re.sub(
         r'package\s+ver2\s*;',
-        f'package ver2.{dir_name};',
+        f'package ver2.{dir_name_safe};',
         content
     )
+
 
     if 'package' not in modified_content:
         modified_content = f'package {dir_name};\n\n' + modified_content
 
-    modified_content = modified_content.replace('-', '_')
 
     # Java 파일 이동 및 저장
     java_filename = Path(java_file).name
