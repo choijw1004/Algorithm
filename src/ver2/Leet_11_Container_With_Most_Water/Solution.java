@@ -1,4 +1,4 @@
-package ver2;
+package ver2.Leet_11_Container_With_Most_Water;
 
 class Solution {
     public int calcuArea(int[] heights, int leftPoint, int rightPoint){
@@ -14,7 +14,6 @@ class Solution {
         else{
             height = heights[leftPoint];
         }
-
 
         area = width * height;
 

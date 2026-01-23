@@ -47,40 +47,43 @@ def extract_metadata(content):
 
 def analyze_with_ollama(problem_link):
 
-    prompt = f"""전달해준 문제 링크를 분석해서 다음 정보를 추출해줘.
+    prompt = f"""Extract information from this problem URL:
+{problem_link}
 
-문제 링크: {problem_link}
+Required information:
+1. Platform (BOJ for 백준, Leet for LeetCode, PGMS for Programmers)
+2. Problem number (skip if Programmers)
+3. Problem title
 
-추출할 정보:
-1. 플랫폼 (백준/리트코드/프로그래머스)
-2. 문제 번호 (플랫폼이 프로그래머스면 문제번호는 생략)
-3. 문제 이름
+Response format (must follow exactly):
+Platform|Number|Title
 
-응답 형식 (반드시 이 형식으로):
-플랫폼|문제번호|문제이름
-
-문제 이름 처리 규칙:
-1. 한글 문제: 띄어쓰기만 제거, 나머지는 원본 그대로
+Title formatting rules:
+1. Korean problems: Remove spaces only, keep everything else
    - "DFS와 BFS" → "DFS와BFS"
    - "이진 검색 트리" → "이진검색트리"
-2. 영문 문제: 각 단어 첫글자 대문자, 띄어쓰기는 언더바(_)
+2. English problems: Capitalize first letter of each word, replace spaces with underscores
    - "k radius subarray averages" → "K_Radius_Subarray_Averages"
    - "two sum" → "Two_Sum"
-3. 특수문자는 제거하지 말고 그대로 유지
+   - "container with most water" → "Container_With_Most_Water"
+3. Replace hyphens (-) with underscores (_)
+4. Keep all other special characters
 
-플랫폼별 예시:
-- 백준: BOJ|1260|DFS와BFS
-- 백준: BOJ|2580|스도쿠
-- 리트코드: Leet|2090|K_Radius_Subarray_Averages
-- 리트코드: Leet|1|Two_Sum
-- 프로그래머스: PGMS||네트워크 (문제 번호 없으면 비워두기)
-- 프로그래머스: PGMS||타겟넘버
+Platform-specific examples:
+- BOJ (백준): BOJ|1260|DFS와BFS
+- BOJ (백준): BOJ|2580|스도쿠
+- Leet (LeetCode): Leet|2090|K_Radius_Subarray_Averages
+- Leet (LeetCode): Leet|1|Two_Sum
+- Leet (LeetCode): Leet|11|Container_With_Most_Water
+- PGMS (Programmers): PGMS||네트워크 (leave number empty)
+- PGMS (Programmers): PGMS||타겟넘버
 
-규칙:
-- 반드시 "플랫폼|문제번호|문제이름" 형식으로만 답해줘
-- 다른 설명이나 부연 설명 절대 추가하지 마
-- 띄어쓰기는 언더바(_)
-- 한 줄로만 답해줘"""
+Critical rules:
+- Output ONLY in "Platform|Number|Title" format
+- NO explanations or additional text
+- Replace ALL spaces with underscores in titles
+- Output exactly ONE line
+- If Programmers platform, use || (empty number field)"""
 
     try:
 
