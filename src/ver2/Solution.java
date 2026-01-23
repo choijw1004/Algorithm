@@ -4,7 +4,7 @@ class Solution {
 
     public int calcuArea(int[] heights, int leftPoint, int rightPoint){
 
-        int area = 0;
+        int area = -1;
         int width, height = 0;
 
         width = rightPoint - leftPoint;
@@ -55,5 +55,4 @@ class Solution {
 
 # 문제 링크
 https://leetcode.com/problems/container-with-most-water/
-
  */

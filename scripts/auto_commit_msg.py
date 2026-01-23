@@ -127,16 +127,14 @@ def create_problem_directory(dir_name, java_file, content, metadata):
     problem_dir = Path(PROBLEMS_DIR) / dir_name
     problem_dir.mkdir(parents=True, exist_ok=True)
 
-    # Java 파일의 패키지 선언 수정
     modified_content = re.sub(
         r'package\s+ver2\s*;',
-        f'package ver2.{dir_name};',
+        f'package {dir_name};',
         content
     )
 
-    # 패키지 선언이 없으면 추가
     if 'package' not in modified_content:
-        modified_content = f'package ver2.{dir_name};\n\n' + modified_content
+        modified_content = f'package {dir_name};\n\n' + modified_content
 
     # Java 파일 이동 및 저장
     java_filename = Path(java_file).name
@@ -148,7 +146,6 @@ def create_problem_directory(dir_name, java_file, content, metadata):
     # 원본 파일 삭제
     if Path(java_file).resolve() != new_java_path.resolve():
         os.remove(java_file)
-
 
     # README 생성
     create_readme(problem_dir, dir_name, modified_content, metadata)
