@@ -38,7 +38,6 @@
 - [BOJ_1158_요세푸스문제](./src/ver2/BOJ_1158_요세푸스문제/README.md)
 
 ## 투 포인터
-- [Leet_11_Container_With_Most_Water](./src/ver2/Leet_11_Container_With_Most_Water/README.md)
 - [Leet_9_PalindromeNumber](./src/ver2/Leet_9_PalindromeNumber/README.md)
 - [Leet_3_Longest_Substring_Without_Repeating_Characters](./src/ver2/Leet_3_Longest_Substring_Without_Repeating_Characters/README.md)
 
