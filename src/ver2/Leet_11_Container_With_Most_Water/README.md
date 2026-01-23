@@ -19,6 +19,7 @@ class Solution {
         int area = -1;
         int width, height = 0;
 
+
         width = rightPoint - leftPoint;
 
         if(heights[leftPoint] >= heights[rightPoint]){
