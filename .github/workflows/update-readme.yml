@@ -34,8 +34,7 @@ jobs:
         id: problem_info
         run: |
           # 커밋 메시지에서 디렉토리명 추출
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          DIR_NAME=$(echo "$COMMIT_MSG" | sed 's/feat: //')
+          LATEST_DIR=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^src/ver2/.*/" | head -1 | xargs dirname | uniq)
 
           LATEST_DIR="src/ver2/$DIR_NAME"
 

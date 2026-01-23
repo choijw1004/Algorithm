@@ -1,25 +1,12 @@
-# Leet_11_Container_With_Most_Water
-
-## 문제 링크
-https://leetcode.com/problems/container-with-most-water/
-
-## 카테고리
-
-
-## 접근 방식
-투 포인터로 해결한 문제이다.
-
-## 코드
-```java
-package ver2.Leet_11_Container_With_Most_Water;
+package ver2;
 
 class Solution {
     public int calcuArea(int[] heights, int leftPoint, int rightPoint){
 
-        int area = _1;
+        int area = -1;
         int width, height = 0;
 
-        width = rightPoint _ leftPoint;
+        width = rightPoint - leftPoint;
 
         if(heights[leftPoint] >= heights[rightPoint]){
             height = heights[rightPoint];
@@ -34,10 +21,10 @@ class Solution {
     }
 
     public int maxArea(int[] height) {
-        int maxArea = _1;
+        int maxArea = -1;
 
         int leftPoint = 0;
-        int rightPoint = height.length _1;
+        int rightPoint = height.length - 1;
 
         while(leftPoint <= rightPoint){
 
@@ -51,10 +38,20 @@ class Solution {
                 leftPoint++;
             }
             else{
-                rightPoint__;
+                rightPoint--;
             }
         }
         return maxArea;
     }
 }
-```
+
+/*
+# 카테고리
+투 포인터
+
+# 접근 방식
+투 포인터로 해결한 문제이다.
+
+# 문제 링크
+https://leetcode.com/problems/container-with-most-water/
+ */
