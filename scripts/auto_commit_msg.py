@@ -63,7 +63,7 @@ def analyze_with_ollama(problem_link):
 1. 한글 문제: 띄어쓰기만 제거, 나머지는 원본 그대로
    - "DFS와 BFS" → "DFS와BFS"
    - "이진 검색 트리" → "이진검색트리"
-2. 영문 문제: 각 단어 첫글자 대문자, 띄어쓰기는 언더바
+2. 영문 문제: 각 단어 첫글자 대문자, 띄어쓰기는 언더바(_)
    - "k radius subarray averages" → "K_Radius_Subarray_Averages"
    - "two sum" → "Two_Sum"
 3. 특수문자는 제거하지 말고 그대로 유지
@@ -79,6 +79,7 @@ def analyze_with_ollama(problem_link):
 규칙:
 - 반드시 "플랫폼|문제번호|문제이름" 형식으로만 답해줘
 - 다른 설명이나 부연 설명 절대 추가하지 마
+- 띄어쓰기는 언더바(_)
 - 한 줄로만 답해줘"""
 
     try:
@@ -129,12 +130,14 @@ def create_problem_directory(dir_name, java_file, content, metadata):
 
     modified_content = re.sub(
         r'package\s+ver2\s*;',
-        f'package {dir_name};',
+        f'package ver2.{dir_name};',
         content
     )
 
     if 'package' not in modified_content:
         modified_content = f'package {dir_name};\n\n' + modified_content
+
+    modified_content = modified_content.replace('-', '_')
 
     # Java 파일 이동 및 저장
     java_filename = Path(java_file).name
