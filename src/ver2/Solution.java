@@ -1,7 +1,6 @@
 package ver2;
 
 class Solution {
-
     public int calcuArea(int[] heights, int leftPoint, int rightPoint){
 
         int area = -1;
