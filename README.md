@@ -12,9 +12,6 @@
 ## Hash Map
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
 
-## 기타
-- [Leet_11_Container_With_Most_Water](./src/ver2/Leet_11_Container_With_Most_Water/README.md)
-
 ## 수학
 - [BOJ_2609_최대공약수와최소공배수](./src/ver2/BOJ_2609_최대공약수와최소공배수/README.md)
 
