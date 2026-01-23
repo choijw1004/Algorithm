@@ -33,20 +33,25 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          # 커밋 메시지에서 디렉토리명 추출
-          LATEST_DIR=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^src/ver2/.*/" | head -1 | xargs dirname | uniq)
-
-          LATEST_DIR="src/ver2/$DIR_NAME"
-
+          README_PATH=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^src/ver2/.*/README.md$" | head -1)
+          
+          if [ -z "$README_PATH" ]; then
+            echo "No README found"
+            exit 0
+          fi
+          
+          # 디렉토리 경로 추출
+          LATEST_DIR=$(dirname "$README_PATH")
+          
           if [ ! -d "$LATEST_DIR" ]; then
             echo "Directory not found: $LATEST_DIR"
             exit 0
           fi
-
+          
           README_FILE="$LATEST_DIR/README.md"
           
           if [ ! -f "$README_FILE" ]; then
-            echo "README not found"
+            echo "README file not found: $README_FILE"
             exit 0
           fi
           
