@@ -29,6 +29,7 @@
 - [BOJ_2609_최대공약수와최소공배수](./src/ver2/BOJ_2609_최대공약수와최소공배수/README.md)
 
 ## 자료구조
+- [Leet_460_LRU_Cache](./src/ver2/Leet_460_LRU_Cache/README.md)
 - [BOJ_1158_요세푸스문제](./src/ver2/BOJ_1158_요세푸스문제/README.md)
 
 ## 정렬
