@@ -1,4 +1,4 @@
-package ver2;
+package ver2.Leet_800_Koko_Eating_Bananas;
 
 class Solution {
     int[] piles;
@@ -48,6 +48,7 @@ class Solution {
 하나의 일차원 배열이 있고 그 배열의 모든 조건을 부합하는 최소의 정수 N을 구하는 문제이다.
 이를 구하기 위해서 먼저 1 ~ max까지의 선형적인 수들의 최댓값 max를 정의하고 그 max 사이의 값을 이분탐색으로 찾아준다
 ```
+
 while(start <= end){
     long mid = (start + end) / 2;
 
