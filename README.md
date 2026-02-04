@@ -29,6 +29,7 @@
 - [Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength](./src/ver2/Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength/README.md)
 - [Leet_1876_SubstringsofSizeThreewithDistinctCharacters](./src/ver2/Leet_1876_SubstringsofSizeThreewithDistinctCharacters/README.md)
 - [Leet_1297_MaximumNumberofOccurrencesofaSubstring](./src/ver2/Leet_1297_MaximumNumberofOccurrencesofaSubstring/README.md)
+- [BOJ_20922_겹치는_건_싫어](./src/ver2/BOJ_20922_겹치는_건_싫어/README.md)
 - [BOJ_30804_과일_탕후루](./src/ver2/BOJ_30804_과일_탕후루/README.md)
 - [Leet_1423_Maximum_Points_You_Can_Obtain_from_Cards](./src/ver2/Leet_1423_Maximum_Points_You_Can_Obtain_from_Cards/README.md)
 - [Leet_438_FindAllAnagramsinaString](./src/ver2/Leet_438_FindAllAnagramsinaString/README.md)
@@ -54,6 +55,7 @@
 
 ## 투 포인터
 - [Leet_3_Longest_Substring_Without_Repeating_Characters](./src/ver2/Leet_3_Longest_Substring_Without_Repeating_Characters/README.md)
+- [BOJ_20922_겹치는_건_싫어](./src/ver2/BOJ_20922_겹치는_건_싫어/README.md)
 - [BOJ_30804_과일_탕후루](./src/ver2/BOJ_30804_과일_탕후루/README.md)
 - [Leet_11_Container_With_Most_Water](./src/ver2/Leet_11_Container_With_Most_Water/README.md)
 - [Leet_9_PalindromeNumber](./src/ver2/Leet_9_PalindromeNumber/README.md)
