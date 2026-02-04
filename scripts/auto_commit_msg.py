@@ -1,11 +1,12 @@
 import sys
 import os
 import subprocess
-import ollama
+import requests
 import re
 from pathlib import Path
 
 PROBLEMS_DIR = './src/ver2'
+SPRING_API_URL = 'http://localhost:8080/api/problem/analyze'
 
 def get_staged_java_files():
     result = subprocess.run(
@@ -45,92 +46,38 @@ def extract_metadata(content):
         'approach': approach
     }
 
-def analyze_with_ollama(problem_link):
-
-    prompt = f"""Extract information from this problem URL:
-{problem_link}
-
-Required information:
-1. Platform (BOJ for 백준, Leet for LeetCode, PGMS for Programmers)
-2. Problem number (skip if Programmers)
-3. Problem title
-
-Response format (must follow exactly):
-Platform|Number|Title
-
-Title formatting rules:
-1. Korean problems: Remove spaces only, keep everything else
-   - "DFS와 BFS" → "DFS와BFS"
-   - "이진 검색 트리" → "이진검색트리"
-2. English problems: Capitalize first letter of each word, replace spaces with underscores
-   - "k radius subarray averages" → "K_Radius_Subarray_Averages"
-   - "two sum" → "Two_Sum"
-   - "container with most water" → "Container_With_Most_Water"
-3. Replace hyphens (-) with underscores (_)
-4. Keep all other special characters
-
-Platform-specific examples:
-- BOJ (백준): BOJ|1260|DFS와BFS
-- BOJ (백준): BOJ|2580|스도쿠
-- Leet (LeetCode): Leet|2090|K_Radius_Subarray_Averages
-- Leet (LeetCode): Leet|1|Two_Sum
-- Leet (LeetCode): Leet|11|Container_With_Most_Water
-- PGMS (Programmers): PGMS||네트워크 (leave number empty)
-- PGMS (Programmers): PGMS||타겟넘버
-
-Critical rules:
-- Output ONLY in "Platform|Number|Title" format
-- NO explanations or additional text
-- Replace ALL spaces with underscores in titles
-- Output exactly ONE line
-- If Programmers platform, use || (empty number field)"""
-
+def call_spring_api(problem_link, categories, approach):
+    """Spring API 호출"""
     try:
+        response = requests.post(SPRING_API_URL, json={
+            'problemLink': problem_link,
+            'problemCategories': categories,
+            'problemApproach': approach
+        }, timeout=30)
 
-        response = ollama.chat(
-            model='qwen3:8b',
-            messages=[{'role': 'user', 'content': prompt}],
-            options={'temperature': 0.2}
-        )
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"API 호출 실패: {response.status_code}")
+            print(f"응답: {response.text}")
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"API 호출 에러: {e}")
+        return None
 
-        result = response['message']['content'].strip().split('\n')[0]
+def remove_metadata_comments(content):
+    """메타데이터 주석 제거 (# 로 시작하는 줄)"""
+    lines = content.split('\n')
+    filtered_lines = [line for line in lines if not line.strip().startswith('#')]
+    return '\n'.join(filtered_lines)
 
-        # 파싱
-        parts = result.split('|')
-        if len(parts) >= 3:
-            platform = parts[0].strip()
-            number = parts[1].strip() if parts[1].strip() else None
-            title = parts[2].strip()
-            return platform, number, title
-
-        return None, None, None
-
-    except Exception as e:
-        print(f"Ollama 에러: {e}")
-        return None, None, None
-
-def generate_directory_name(platform, number, title):
-    if platform == "PGMS":
-        return f"{platform}_{title}"
-    elif number:
-        return f"{platform}_{number}_{title}"
-    else:
-        return f"{platform}_{title}"
-
-def generate_commit_message(platform, number, title):
-    if platform == "PGMS":
-        return f"feat: {platform}_{title}"
-    elif number:
-        return f"feat: {platform}_{number}_{title}"
-    else:
-        return f"feat: {platform}_{title}"
-
-def create_problem_directory(dir_name, java_file, content, metadata):
-
-    # 디렉토리 생성
+def create_problem_directory(result, java_file, content):
+    """디렉토리 생성 및 파일 이동"""
+    dir_name = result['directoryName']
     problem_dir = Path(PROBLEMS_DIR) / dir_name
     problem_dir.mkdir(parents=True, exist_ok=True)
 
+    # package 수정
     dir_name_safe = dir_name.replace('-', '_')
     modified_content = re.sub(
         r'package\s+ver2\s*;',
@@ -138,52 +85,34 @@ def create_problem_directory(dir_name, java_file, content, metadata):
         content
     )
 
-
+    # package 없으면 추가
     if 'package' not in modified_content:
-        modified_content = f'package {dir_name};\n\n' + modified_content
+        modified_content = f'package ver2.{dir_name_safe};\n\n' + modified_content
 
+    # 메타데이터 주석 제거
+    clean_content = remove_metadata_comments(modified_content)
 
-    # Java 파일 이동 및 저장
+    # Java 파일 저장
     java_filename = Path(java_file).name
     new_java_path = problem_dir / java_filename
-
     with open(new_java_path, 'w', encoding='utf-8') as f:
-        f.write(modified_content)
+        f.write(clean_content)
 
     # 원본 파일 삭제
     if Path(java_file).resolve() != new_java_path.resolve():
         os.remove(java_file)
 
-    # README 생성
-    create_readme(problem_dir, dir_name, modified_content, metadata)
+    # README 저장 (Spring에서 받은 내용 + 코드 추가)
+    readme_content = result['readmeContent']
 
-def create_readme(problem_dir, problem_name, java_content, metadata):
-    """개별 문제 README 생성"""
-
-    code = re.sub(r'/\*[\s\S]*?\*/', '', java_content).strip()
-
-    categories_str = ' '.join([f'`{c}`' for c in metadata['categories']])
-
-    readme_content = f"""# {problem_name}
-
-## 문제 링크
-{metadata['problem_link']}
-
-## 카테고리
-{categories_str}
-
-## 접근 방식
-{metadata['approach']}
-
-## 코드
-```java
-{code}
-```
-"""
+    # 코드 부분 추가
+    code_for_readme = remove_metadata_comments(clean_content)
+    readme_content += f"\n## 코드\n```java\n{code_for_readme}\n```\n"
 
     with open(problem_dir / 'README.md', 'w', encoding='utf-8') as f:
         f.write(readme_content)
 
+    print(f"디렉토리 생성: {dir_name}")
     print(f"README 생성: {problem_dir / 'README.md'}")
 
 def main():
@@ -202,6 +131,7 @@ def main():
     # 파일 읽기
     content = read_file(java_file)
     if not content:
+        print("파일 읽기 실패")
         sys.exit(1)
 
     # 메타데이터 추출
@@ -209,23 +139,34 @@ def main():
 
     if not metadata['problem_link']:
         commit_msg = "feat: 알고리즘_문제해결"
+        print("문제 링크 없음 - 기본 커밋 메시지 사용")
     else:
-        print("ollama 시작")
-        platform, number, title = analyze_with_ollama(metadata['problem_link'])
+        print(f"문제 분석 중: {metadata['problem_link']}")
 
-        if not platform or not title:
+        # Spring API 호출
+        result = call_spring_api(
+            metadata['problem_link'],
+            metadata['categories'],
+            metadata['approach']
+        )
+
+        if not result:
             commit_msg = "feat: 알고리즘_문제해결"
+            print("API 호출 실패 - 기본 커밋 메시지 사용")
         else:
-            dir_name = generate_directory_name(platform, number, title)
-            print(f"디렉토리명: {dir_name}")
-
-            commit_msg = generate_commit_message(platform, number, title)
+            commit_msg = result['commitMessage']
+            print(f"플랫폼: {result['platform']}")
+            print(f"디렉토리명: {result['directoryName']}")
             print(f"커밋 메시지: {commit_msg}")
 
-            create_problem_directory(dir_name, java_file, content, metadata)
+            # 디렉토리 생성 및 파일 저장
+            create_problem_directory(result, java_file, content)
 
+    # 커밋 메시지 작성
     with open(commit_msg_file, 'w', encoding='utf-8') as f:
         f.write(commit_msg)
+
+    print(f"커밋 메시지: {commit_msg}")
 
 if __name__ == '__main__':
     main()
