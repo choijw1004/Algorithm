@@ -26,26 +26,36 @@ def read_file(file_path):
         return None
 
 def extract_metadata(content):
-    # 문제 링크
-    link_match = re.search(r'# 문제 링크\s*\n\s*([^\n]+)', content)
-    problem_link = link_match.group(1).strip() if link_match else None
 
-    # 카테고리
-    category_match = re.search(r'# 카테고리\s*\n([^\n#]+)', content)
-    categories = []
-    if category_match:
-        categories = [c.strip() for c in category_match.group(1).split(',') if c.strip()]
+    all_comments = re.findall(r'/\*([\s\S]*?)\*/', content)
 
-    # 접근 방식
-    approach_match = re.search(r'# 접근 방식\s*\n([\s\S]*?)(?=\n# |$)', content)
-    approach = approach_match.group(1).strip() if approach_match else ''
+    for comment_content in reversed(all_comments):
+        link_match = re.search(r'# 문제 링크\s*\n\s*([^\n]+)', comment_content)
+
+        if link_match:
+            problem_link = link_match.group(1).strip()
+
+            # 카테고리
+            category_match = re.search(r'# 카테고리\s*\n([^\n#]+)', comment_content)
+            categories = []
+            if category_match:
+                categories = [c.strip() for c in category_match.group(1).split(',') if c.strip()]
+
+            # 접근 방식
+            approach_match = re.search(r'# 접근 방식\s*\n([\s\S]*?)(?=\n# |$)', comment_content)
+            approach = approach_match.group(1).strip() if approach_match else ''
+
+            return {
+                'problem_link': problem_link,
+                'categories': categories,
+                'approach': approach
+            }
 
     return {
-        'problem_link': problem_link,
-        'categories': categories,
-        'approach': approach
+        'problem_link': None,
+        'categories': [],
+        'approach': ''
     }
-
 def call_spring_api(problem_link, categories, approach):
     """Spring API 호출"""
     try:

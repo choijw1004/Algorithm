@@ -2,6 +2,7 @@ package ver2;
 
 import java.util.Scanner;
 
+
 public class Main {
     static int n,m;
     static int[] cookies;
