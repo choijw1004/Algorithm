@@ -99,8 +99,11 @@ def create_problem_directory(result, java_file, content):
     if 'package' not in modified_content:
         modified_content = f'package ver2.{dir_name_safe};\n\n' + modified_content
 
-    # 메타데이터 주석 제거
-    clean_content = remove_metadata_comments(modified_content)
+    # ❌ 메타데이터 주석 제거 - 이 줄 삭제!
+    # clean_content = remove_metadata_comments(modified_content)
+
+    # ✅ 주석 그대로 유지
+    clean_content = modified_content
 
     # Java 파일 저장
     java_filename = Path(java_file).name
@@ -115,8 +118,8 @@ def create_problem_directory(result, java_file, content):
     # README 저장 (Spring에서 받은 내용 + 코드 추가)
     readme_content = result['readmeContent']
 
-    # 코드 부분 추가
-    code_for_readme = remove_metadata_comments(clean_content)
+    # 코드 부분 추가 (주석 포함)
+    code_for_readme = clean_content
     readme_content += f"\n## 코드\n```java\n{code_for_readme}\n```\n"
 
     with open(problem_dir / 'README.md', 'w', encoding='utf-8') as f:

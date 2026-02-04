@@ -1,4 +1,4 @@
-name: Update README
+name: Create Blog Post
 
 on:
   push:
@@ -7,61 +7,42 @@ on:
       - 'src/ver2/**'
 
 jobs:
-  update-readme:
+  create-blog-post:
     runs-on: ubuntu-latest
-    
+
     permissions:
       contents: write
-    
+
     steps:
       - name: code checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - name: run update_readme.py
-        run: python scripts/update_readme.py
-
-      - name: commit to algorithm repo
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git diff --staged --quiet || git commit -m "docs: update README.md"
-          git push
-
       - name: get latest problem info
         id: problem_info
         run: |
-          README_PATH=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^src/ver2/.*/README.md$" | head -1)
+          # 커밋 메시지에서 디렉토리명 추출
+          COMMIT_MSG=$(git log -1 --pretty=%B --grep="^feat:" | head -1)
           
-          if [ -z "$README_PATH" ]; then
-            echo "No README found"
+          if [ -z "$COMMIT_MSG" ]; then
+            echo "No feat commit found"
             exit 0
           fi
           
-          # 디렉토리 경로 추출
-          LATEST_DIR=$(dirname "$README_PATH")
+          DIR_NAME=$(echo "$COMMIT_MSG" | sed 's/feat: //')
+          README_PATH="src/ver2/${DIR_NAME}/README.md"
           
-          if [ ! -d "$LATEST_DIR" ]; then
-            echo "Directory not found: $LATEST_DIR"
+          if [ ! -f "$README_PATH" ]; then
+            echo "README not found: $README_PATH"
             exit 0
           fi
           
-          README_FILE="$LATEST_DIR/README.md"
+          PROBLEM_TITLE=$(grep -m 1 "^# " "$README_PATH" | sed 's/# //')
+          FIRST_CATEGORY=$(grep -A 1 "## 카테고리" "$README_PATH" | tail -1 | sed 's/.*`\([^`]*\)`.*/\1/')
+          ALL_CATEGORIES=$(grep -A 1 "## 카테고리" "$README_PATH" | tail -1 | grep -o '`[^`]*`' | sed 's/`//g')
           
-          if [ ! -f "$README_FILE" ]; then
-            echo "README file not found: $README_FILE"
-            exit 0
-          fi
-          
-          PROBLEM_TITLE=$(grep -m 1 "^# " "$README_FILE" | sed 's/# //')
-          
-          FIRST_CATEGORY=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | sed 's/.*`\([^`]*\)`.*/\1/')
-          
-          ALL_CATEGORIES=$(grep -A 1 "## 카테고리" "$README_FILE" | tail -1 | grep -o '`[^`]*`' | sed 's/`//g')
-          
-          cat "$README_FILE" > /tmp/problem_readme.md
+          cat "$README_PATH" > /tmp/problem_readme.md
           
           echo "problem_name=$PROBLEM_TITLE" >> $GITHUB_OUTPUT
           echo "first_category=$FIRST_CATEGORY" >> $GITHUB_OUTPUT
@@ -78,7 +59,7 @@ jobs:
           token: ${{ secrets.BLOG_PAT }}
           path: blog-repo
 
-      - name: create blog post with incremental number
+      - name: create blog post
         if: steps.problem_info.outputs.readme_exists == 'true'
         run: |
           DATE=$(date +%Y-%m-%d)
@@ -127,7 +108,7 @@ jobs:
           
           cat /tmp/problem_readme.md >> blog-repo/_posts/${FILENAME}
           
-          echo "Created: ${FILENAME}"
+          echo "✅ Created: ${FILENAME}"
 
       - name: commit to blog repo
         if: steps.problem_info.outputs.readme_exists == 'true'
@@ -142,3 +123,5 @@ jobs:
           git pull --rebase --autostash || git pull --no-rebase
           
           git push
+
+  
