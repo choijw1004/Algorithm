@@ -22,42 +22,85 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          # 가장 최근 feat 커밋의 해시와 메시지 가져오기
-          LATEST_FEAT_HASH=$(git log --grep="^feat:" --format="%H" -1)
-          LATEST_FEAT_MSG=$(git log --grep="^feat:" --format="%s" -1)
+          python3 << 'EOF'
+          import os
+          import re
+          import subprocess
 
-          if [ -z "$LATEST_FEAT_HASH" ]; then
-            echo "❌ No feat commit found"
-            exit 0
-          fi
+          # 가장 최근 feat 커밋 찾기
+          result = subprocess.run(
+              ['git', 'log', '--grep=^feat:', '--format=%H', '-1'],
+              capture_output=True,
+              text=True
+          )
 
-          echo "✅ feat commit: $LATEST_FEAT_HASH"
-          echo "✅ feat message: $LATEST_FEAT_MSG"
+          commit_hash = result.stdout.strip()
 
-          # 해당 커밋에서 추가된 README 직접 찾기
-          README_PATH=$(git show --name-only --format="" $LATEST_FEAT_HASH | grep "^src/ver2/.*/README.md$" | head -1)
+          if not commit_hash:
+              print("❌ No feat commit found")
+              exit(0)
 
-          if [ -z "$README_PATH" ]; then
-            echo "❌ No README in commit, trying all files..."
-            # 커밋의 모든 파일 보기
-            git show --name-only --format="" $LATEST_FEAT_HASH
-            exit 0
-          fi
+          print(f"✅ feat commit: {commit_hash}")
 
-          echo "✅ Found README: $README_PATH"
+          # 해당 커밋의 파일 목록 가져오기
+          result = subprocess.run(
+              ['git', 'show', '--name-only', '--format=', commit_hash],
+              capture_output=True,
+              text=True,
+              encoding='utf-8'
+          )
 
-          PROBLEM_TITLE=$(grep -m 1 "^# " "$README_PATH" | sed 's/# //')
-          FIRST_CATEGORY=$(grep -A 1 "## 카테고리" "$README_PATH" | tail -1 | sed 's/.*`\([^`]*\)`.*/\1/')
-          ALL_CATEGORIES=$(grep -A 1 "## 카테고리" "$README_PATH" | tail -1 | grep -o '`[^`]*`' | sed 's/`//g')
+          files = result.stdout.strip().split('\n')
 
-          cat "$README_PATH" > /tmp/problem_readme.md
+          # README 찾기
+          readme_path = None
+          for f in files:
+              if 'src/ver2/' in f and 'README.md' in f and f != 'README.md':
+                  readme_path = f.strip('"')  # 따옴표 제거
+                  break
 
-          echo "problem_name=$PROBLEM_TITLE" >> $GITHUB_OUTPUT
-          echo "first_category=$FIRST_CATEGORY" >> $GITHUB_OUTPUT
-          echo "all_categories<<EOF" >> $GITHUB_OUTPUT
-          echo "$ALL_CATEGORIES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "readme_exists=true" >> $GITHUB_OUTPUT
+          if not readme_path:
+              print("❌ No README found")
+              exit(0)
+
+          print(f"✅ Found README: {readme_path}")
+
+          # README 읽기
+          try:
+              with open(readme_path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+          except:
+              print(f"❌ Cannot read file: {readme_path}")
+              exit(0)
+
+          # 제목 추출
+          title_match = re.search(r'^# (.+)$', content, re.MULTILINE)
+          title = title_match.group(1) if title_match else ''
+
+          # 카테고리 추출
+          cat_match = re.search(r'## 카테고리\s*\n([^\n#]+)', content)
+          if cat_match:
+              categories = re.findall(r'`([^`]+)`', cat_match.group(1))
+              first_category = categories[0] if categories else '기타'
+              all_categories = '\n'.join(categories)
+          else:
+              first_category = '기타'
+              all_categories = '기타'
+
+          # README 저장
+          with open('/tmp/problem_readme.md', 'w', encoding='utf-8') as f:
+              f.write(content)
+
+          # GitHub Output
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
+              f.write(f"problem_name={title}\n")
+              f.write(f"first_category={first_category}\n")
+              f.write(f"all_categories<<EOF\n{all_categories}\nEOF\n")
+              f.write("readme_exists=true\n")
+
+          print(f"✅ problem_name={title}")
+          print(f"✅ first_category={first_category}")
+          EOF
 
       - name: checkout blog repo
         if: steps.problem_info.outputs.readme_exists == 'true'
@@ -131,5 +174,3 @@ jobs:
           git pull --rebase --autostash || git pull --no-rebase
           
           git push
-
-  

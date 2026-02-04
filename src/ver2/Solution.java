@@ -15,7 +15,6 @@ class Solution {
         return dp[n];
     }
 }
-
 /*
 # 카테고리
 DP
