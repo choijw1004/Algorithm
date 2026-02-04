@@ -22,11 +22,21 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          # 이번 커밋에서 추가된 README 찾기
-          README_PATH=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^src/ver2/.*/README.md$" | head -1)
+          # feat으로 시작하는 최근 커밋에서 README 찾기
+          FEAT_COMMIT=$(git log --grep="^feat:" --format="%H" -1)
+
+          if [ -z "$FEAT_COMMIT" ]; then
+            echo "No feat commit found"
+            exit 0
+          fi
+
+          echo "✅ feat 커밋: $FEAT_COMMIT"
+
+          # 해당 커밋에서 추가된 README 찾기
+          README_PATH=$(git diff-tree --no-commit-id --name-only -r $FEAT_COMMIT | grep "^src/ver2/.*/README.md$" | head -1)
 
           if [ -z "$README_PATH" ]; then
-            echo "No README found in this commit"
+            echo "No README found in feat commit"
             exit 0
           fi
 
