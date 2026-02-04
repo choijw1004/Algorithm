@@ -13,6 +13,7 @@
 - [BOJ_1967_트리의_지름](./src/ver2/BOJ_1967_트리의_지름/README.md)
 
 ## DP
+- [Leet_747_Min_Cost_Climbing_Stairs](./src/ver2/Leet_747_Min_Cost_Climbing_Stairs/README.md)
 - [BOJ_12865_평범한_배낭](./src/ver2/BOJ_12865_평범한_배낭/README.md)
 
 ## Hash Map
