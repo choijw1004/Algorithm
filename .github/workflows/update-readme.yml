@@ -22,29 +22,27 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          # 커밋 메시지에서 디렉토리명 추출
+          # 이번 커밋에서 추가된 README 찾기
           README_PATH=$(git diff-tree --no-commit-id --name-only -r HEAD | grep "^src/ver2/.*/README.md$" | head -1)
-          
-          
-          if [ -z "$COMMIT_MSG" ]; then
-            echo "No feat commit found"
+
+          if [ -z "$README_PATH" ]; then
+            echo "No README found in this commit"
             exit 0
           fi
-          
-          DIR_NAME=$(echo "$COMMIT_MSG" | sed 's/feat: //')
-          README_PATH="src/ver2/${DIR_NAME}/README.md"
-          
+
           if [ ! -f "$README_PATH" ]; then
-            echo "README not found: $README_PATH"
+            echo "README file not found: $README_PATH"
             exit 0
           fi
-          
+
+          echo "✅ Found README: $README_PATH"
+
           PROBLEM_TITLE=$(grep -m 1 "^# " "$README_PATH" | sed 's/# //')
           FIRST_CATEGORY=$(grep -A 1 "## 카테고리" "$README_PATH" | tail -1 | sed 's/.*`\([^`]*\)`.*/\1/')
           ALL_CATEGORIES=$(grep -A 1 "## 카테고리" "$README_PATH" | tail -1 | grep -o '`[^`]*`' | sed 's/`//g')
-          
+
           cat "$README_PATH" > /tmp/problem_readme.md
-          
+
           echo "problem_name=$PROBLEM_TITLE" >> $GITHUB_OUTPUT
           echo "first_category=$FIRST_CATEGORY" >> $GITHUB_OUTPUT
           echo "all_categories<<EOF" >> $GITHUB_OUTPUT
