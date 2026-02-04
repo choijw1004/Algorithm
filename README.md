@@ -9,6 +9,9 @@
 ## 2차원 배열
 - [Leet_54_SpiralMatrix](./src/ver2/Leet_54_SpiralMatrix/README.md)
 
+## BFS
+- [BOJ_1967_트리의_지름](./src/ver2/BOJ_1967_트리의_지름/README.md)
+
 ## Hash Map
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
 
@@ -46,4 +49,7 @@
 - [Leet_3_Longest_Substring_Without_Repeating_Characters](./src/ver2/Leet_3_Longest_Substring_Without_Repeating_Characters/README.md)
 - [Leet_11_Container_With_Most_Water](./src/ver2/Leet_11_Container_With_Most_Water/README.md)
 - [Leet_9_PalindromeNumber](./src/ver2/Leet_9_PalindromeNumber/README.md)
+
+## 트리
+- [BOJ_1967_트리의_지름](./src/ver2/BOJ_1967_트리의_지름/README.md)
 
