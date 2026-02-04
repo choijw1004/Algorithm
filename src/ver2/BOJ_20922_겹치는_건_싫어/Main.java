@@ -1,4 +1,4 @@
-package ver2;
+package ver2.BOJ_20922_겹치는_건_싫어;
 
 import java.util.HashMap;
 import java.util.Scanner;

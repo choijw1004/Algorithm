@@ -22,11 +22,25 @@ jobs:
       - name: get latest problem info
         id: problem_info
         run: |
-          # 가장 최근 수정된 README 찾기
-          README_PATH=$(ls -t src/ver2/*/README.md 2>/dev/null | head -1)
+          # 가장 최근 feat 커밋의 해시와 메시지 가져오기
+          LATEST_FEAT_HASH=$(git log --grep="^feat:" --format="%H" -1)
+          LATEST_FEAT_MSG=$(git log --grep="^feat:" --format="%s" -1)
+
+          if [ -z "$LATEST_FEAT_HASH" ]; then
+            echo "❌ No feat commit found"
+            exit 0
+          fi
+
+          echo "✅ feat commit: $LATEST_FEAT_HASH"
+          echo "✅ feat message: $LATEST_FEAT_MSG"
+
+          # 해당 커밋에서 추가된 README 직접 찾기
+          README_PATH=$(git show --name-only --format="" $LATEST_FEAT_HASH | grep "^src/ver2/.*/README.md$" | head -1)
 
           if [ -z "$README_PATH" ]; then
-            echo "❌ No README found"
+            echo "❌ No README in commit, trying all files..."
+            # 커밋의 모든 파일 보기
+            git show --name-only --format="" $LATEST_FEAT_HASH
             exit 0
           fi
 

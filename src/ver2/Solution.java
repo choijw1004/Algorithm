@@ -1,4 +1,4 @@
-package ver2.Leet_746;
+package ver2;
 
 class Solution {
     public int minCostClimbingStairs(int[] cost) {
@@ -15,3 +15,12 @@ class Solution {
         return dp[n];
     }
 }
+
+/*
+# 카테고리
+DP
+# 접근 방식
+DP easy 레벨의 문제이다
+# 문제 링크
+https://leetcode.com/problems/min-cost-climbing-stairs/description/
+ */
