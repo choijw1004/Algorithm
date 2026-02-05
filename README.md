@@ -29,6 +29,7 @@
 ## 슬라이딩 윈도우
 - [Leet_643_Maximum_Average_Subarray_I](./src/ver2/Leet_643_Maximum_Average_Subarray_I/README.md)
 - [Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength](./src/ver2/Leet_1456_MaximumNumberofVowelsinaSubstringofGivenLength/README.md)
+- [BOJ_1806_부분합](./src/ver2/BOJ_1806_부분합/README.md)
 - [Leet_1876_SubstringsofSizeThreewithDistinctCharacters](./src/ver2/Leet_1876_SubstringsofSizeThreewithDistinctCharacters/README.md)
 - [Leet_1297_MaximumNumberofOccurrencesofaSubstring](./src/ver2/Leet_1297_MaximumNumberofOccurrencesofaSubstring/README.md)
 - [BOJ_20922_겹치는_건_싫어](./src/ver2/BOJ_20922_겹치는_건_싫어/README.md)
@@ -60,6 +61,7 @@
 
 ## 투 포인터
 - [Leet_3_Longest_Substring_Without_Repeating_Characters](./src/ver2/Leet_3_Longest_Substring_Without_Repeating_Characters/README.md)
+- [BOJ_1806_부분합](./src/ver2/BOJ_1806_부분합/README.md)
 - [BOJ_20922_겹치는_건_싫어](./src/ver2/BOJ_20922_겹치는_건_싫어/README.md)
 - [BOJ_30804_과일_탕후루](./src/ver2/BOJ_30804_과일_탕후루/README.md)
 - [Leet_11_Container_With_Most_Water](./src/ver2/Leet_11_Container_With_Most_Water/README.md)
