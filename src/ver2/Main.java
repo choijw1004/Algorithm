@@ -1,4 +1,4 @@
-package ver2.BOJ_싸이버개강총회;
+package ver2;
 
 
 import java.io.BufferedReader;
@@ -50,3 +50,14 @@ public class Main {
 
     }
 }
+
+/*
+# 카테고리
+Hash Map, 정렬
+
+# 접근 방식
+Hash Map, 정렬
+
+# 문제 링크
+https://www.acmicpc.net/problem/19583
+ */
