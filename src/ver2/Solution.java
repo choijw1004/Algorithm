@@ -1,6 +1,5 @@
 package ver2;
 
-
 class Solution {
     public int minPathSum(int[][] grid) {
         int n = grid.length;
