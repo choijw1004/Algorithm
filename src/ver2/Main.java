@@ -1,4 +1,4 @@
-package ver2.BOJ_부분합;
+package ver2;
 
 import java.util.Scanner;
 
@@ -35,3 +35,13 @@ public class Main {
         System.out.println(min);
     }
 }
+
+/*
+# 카테고리
+슬라이딩 윈도우, 투 포인터
+
+# 접근 방식
+포인터 두 개를 둔 후 슬라이딩 윈도우를 진행하는 방식으로 해결했다.
+# 문제 링크
+https://www.acmicpc.net/problem/1806
+ */
