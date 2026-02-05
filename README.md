@@ -8,8 +8,10 @@
 
 ## 2차원 배열
 - [Leet_54_SpiralMatrix](./src/ver2/Leet_54_SpiralMatrix/README.md)
+- [BOJ_14940_쉬운_최단거리](./src/ver2/BOJ_14940_쉬운_최단거리/README.md)
 
 ## BFS
+- [BOJ_14940_쉬운_최단거리](./src/ver2/BOJ_14940_쉬운_최단거리/README.md)
 - [BOJ_1967_트리의_지름](./src/ver2/BOJ_1967_트리의_지름/README.md)
 
 ## DP
