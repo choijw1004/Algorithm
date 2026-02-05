@@ -11,6 +11,7 @@
 - [BOJ_14940_쉬운_최단거리](./src/ver2/BOJ_14940_쉬운_최단거리/README.md)
 
 ## BFS
+- [BOJ_1325_효율적인_해킹](./src/ver2/BOJ_1325_효율적인_해킹/README.md)
 - [BOJ_14940_쉬운_최단거리](./src/ver2/BOJ_14940_쉬운_최단거리/README.md)
 - [BOJ_1967_트리의_지름](./src/ver2/BOJ_1967_트리의_지름/README.md)
 
@@ -28,6 +29,7 @@
 - [BOJ_20006_랭킹전_대기열](./src/ver2/BOJ_20006_랭킹전_대기열/README.md)
 
 ## 그래프
+- [BOJ_1325_효율적인_해킹](./src/ver2/BOJ_1325_효율적인_해킹/README.md)
 - [BOJ_1976_여행_가자](./src/ver2/BOJ_1976_여행_가자/README.md)
 
 ## 냅색
