@@ -1,4 +1,4 @@
-package ver2.BOJ_퇴사;
+package ver2;
 
 import java.util.Scanner;
 
@@ -29,3 +29,14 @@ public class Main {
 
     }
 }
+
+/*
+# 카테고리
+DP
+
+# 접근 방식
+dp 배열을 만든 후 dp로 접근
+
+# 문제 링크
+https://www.acmicpc.net/problem/14501
+ */

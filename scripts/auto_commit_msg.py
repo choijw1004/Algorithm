@@ -10,7 +10,7 @@ SPRING_API_URL = 'http://localhost:8080/api/problem/analyze'
 
 def get_staged_java_files():
     result = subprocess.run(
-        ['git', 'diff', '--cached', '--name-only'],
+        ['git', 'diff', '--cached', '--diff-filter=AMCR', '--name-only'],
         capture_output=True,
         text=True
     )
