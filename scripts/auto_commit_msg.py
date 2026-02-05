@@ -132,10 +132,8 @@ def create_problem_directory(result, java_file, content):
     print(f"✅ Git staged: {problem_dir}")
 
 def main():
-    if len(sys.argv) < 2:
-        sys.exit(1)
-
-    commit_msg_file = sys.argv[1]
+    # pre-commit 모드: 파일 생성 + 커밋 메시지를 임시 파일에 저장
+    is_pre_commit = '--pre-commit' in sys.argv
 
     # Java 파일 확인
     java_files = get_staged_java_files()
@@ -178,9 +176,16 @@ def main():
             # 디렉토리 생성 및 파일 저장
             create_problem_directory(result, java_file, content)
 
-    # 커밋 메시지 작성
-    with open(commit_msg_file, 'w', encoding='utf-8') as f:
-        f.write(commit_msg)
+    # 커밋 메시지 저장
+    # pre-commit 모드: 임시 파일에 저장 (prepare-commit-msg에서 읽음)
+    # 기존 모드: 커밋 메시지 파일에 직접 저장
+    if is_pre_commit:
+        with open('/tmp/algo_commit_msg.txt', 'w', encoding='utf-8') as f:
+            f.write(commit_msg)
+    else:
+        commit_msg_file = sys.argv[1]
+        with open(commit_msg_file, 'w', encoding='utf-8') as f:
+            f.write(commit_msg)
 
     print(f"커밋 메시지: {commit_msg}")
 
