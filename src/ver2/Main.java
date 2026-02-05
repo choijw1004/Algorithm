@@ -1,7 +1,6 @@
-package ver2.BOJ_쉬운최단거리;
+package ver2;
 
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 
@@ -71,9 +70,14 @@ public class Main {
             }
             System.out.println();
         }
-
-
-
-
      }
 }
+
+/*
+# 카테고리
+2차원 배열, BFS
+# 접근 방식
+BFS
+# 문제 링크
+https://www.acmicpc.net/problem/14940
+ */

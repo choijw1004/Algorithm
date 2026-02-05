@@ -41,6 +41,8 @@ jobs:
               text=True
           )
           
+          
+          
           commit_hash = result.stdout.strip()
           
           if not commit_hash:
