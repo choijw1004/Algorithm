@@ -20,6 +20,9 @@
 ## Hash Map
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
 
+## 구현
+- [BOJ_20006_랭킹전_대기열](./src/ver2/BOJ_20006_랭킹전_대기열/README.md)
+
 ## 냅색
 - [BOJ_12865_평범한_배낭](./src/ver2/BOJ_12865_평범한_배낭/README.md)
 
