@@ -1,4 +1,4 @@
-package ver2.BOJ_햄버거분해;
+package ver2;
 
 import java.util.Scanner;
 
@@ -28,8 +28,10 @@ public class Main {
 
 /*
 # 카테고리
-브루트포스
+완전 탐색
+
 # 접근 방식
+반복문으로 쉽게 해결할 수 있는 문제이다.
 
 # 문제 링크
 https://www.acmicpc.net/problem/19941
