@@ -19,6 +19,13 @@ jobs:
         with:
           fetch-depth: 2
 
+
+      - name: setup for Korean filenames
+        run: | 
+          git config --global core.quotepath false
+          echo "LANG=C.UTF-8" >> $GITHUB_ENV
+          echo "LC_ALL=C.UTF-8" >> $GITHUB_ENV
+
       - name: get latest problem info
         id: problem_info
         run: |

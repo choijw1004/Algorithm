@@ -128,6 +128,9 @@ def create_problem_directory(result, java_file, content):
     print(f"디렉토리 생성: {dir_name}")
     print(f"README 생성: {problem_dir / 'README.md'}")
 
+    subprocess.run(['git', 'add', str(problem_dir)], check=False)
+    print(f"✅ Git staged: {problem_dir}")
+
 def main():
     if len(sys.argv) < 2:
         sys.exit(1)
