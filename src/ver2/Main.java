@@ -1,4 +1,4 @@
-package ver2.BOJ_랭킹전_대기열;
+package ver2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,5 +82,15 @@ public class Main {
         }
     }
 
-
 }
+
+/*
+# 카테고리
+구현
+
+# 접근 방식
+평범한 구현 문제이다.
+
+# 문제 링크
+https://www.acmicpc.net/problem/20006
+ */
