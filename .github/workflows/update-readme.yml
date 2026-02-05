@@ -21,7 +21,7 @@ jobs:
 
 
       - name: setup for Korean filenames
-        run: | 
+        run: |
           git config --global core.quotepath false
           echo "LANG=C.UTF-8" >> $GITHUB_ENV
           echo "LC_ALL=C.UTF-8" >> $GITHUB_ENV
@@ -33,22 +33,22 @@ jobs:
           import os
           import re
           import subprocess
-
+          
           # 가장 최근 feat 커밋 찾기
           result = subprocess.run(
               ['git', 'log', '--grep=^feat:', '--format=%H', '-1'],
               capture_output=True,
               text=True
           )
-
+          
           commit_hash = result.stdout.strip()
-
+          
           if not commit_hash:
               print("❌ No feat commit found")
               exit(0)
-
+          
           print(f"✅ feat commit: {commit_hash}")
-
+          
           # 해당 커밋의 파일 목록 가져오기
           result = subprocess.run(
               ['git', 'show', '--name-only', '--format=', commit_hash],
@@ -56,34 +56,42 @@ jobs:
               text=True,
               encoding='utf-8'
           )
-
+          
           files = result.stdout.strip().split('\n')
-
+          
           # README 찾기
           readme_path = None
           for f in files:
               if 'src/ver2/' in f and 'README.md' in f and f != 'README.md':
-                  readme_path = f.strip('"')  # 따옴표 제거
+                  readme_path = f.strip('"')
                   break
-
+          
           if not readme_path:
               print("❌ No README found")
               exit(0)
-
+          
           print(f"✅ Found README: {readme_path}")
-
-          # README 읽기
-          try:
-              with open(readme_path, 'r', encoding='utf-8') as f:
-                  content = f.read()
-          except:
-              print(f"❌ Cannot read file: {readme_path}")
+          
+          # ⭐ Git에서 직접 파일 내용 읽기 (파일 시스템 우회!)
+          result = subprocess.run(
+              ['git', 'show', f'{commit_hash}:{readme_path}'],
+              capture_output=True,
+              text=True,
+              encoding='utf-8'
+          )
+          
+          if result.returncode != 0:
+              print(f"❌ Cannot read from git: {readme_path}")
+              print(f"Error: {result.stderr}")
               exit(0)
-
+          
+          content = result.stdout
+          print(f"✅ Successfully read {len(content)} bytes from git")
+          
           # 제목 추출
           title_match = re.search(r'^# (.+)$', content, re.MULTILINE)
           title = title_match.group(1) if title_match else ''
-
+          
           # 카테고리 추출
           cat_match = re.search(r'## 카테고리\s*\n([^\n#]+)', content)
           if cat_match:
@@ -93,22 +101,21 @@ jobs:
           else:
               first_category = '기타'
               all_categories = '기타'
-
+          
           # README 저장
           with open('/tmp/problem_readme.md', 'w', encoding='utf-8') as f:
               f.write(content)
-
+          
           # GitHub Output
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
               f.write(f"problem_name={title}\n")
               f.write(f"first_category={first_category}\n")
               f.write(f"all_categories<<EOF\n{all_categories}\nEOF\n")
               f.write("readme_exists=true\n")
-
+          
           print(f"✅ problem_name={title}")
           print(f"✅ first_category={first_category}")
           EOF
-
       - name: checkout blog repo
         if: steps.problem_info.outputs.readme_exists == 'true'
         uses: actions/checkout@v4
