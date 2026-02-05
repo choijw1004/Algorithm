@@ -21,6 +21,7 @@
 
 ## Hash Map
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
+- [BOJ_19583_싸이버개강총회](./src/ver2/BOJ_19583_싸이버개강총회/README.md)
 
 ## 구현
 - [BOJ_20006_랭킹전_대기열](./src/ver2/BOJ_20006_랭킹전_대기열/README.md)
@@ -66,6 +67,7 @@
 
 ## 정렬
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
+- [BOJ_19583_싸이버개강총회](./src/ver2/BOJ_19583_싸이버개강총회/README.md)
 
 ## 큐
 - [BOJ_1158_요세푸스문제](./src/ver2/BOJ_1158_요세푸스문제/README.md)
