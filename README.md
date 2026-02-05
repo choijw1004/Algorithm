@@ -15,6 +15,7 @@
 - [BOJ_1967_트리의_지름](./src/ver2/BOJ_1967_트리의_지름/README.md)
 
 ## DP
+- [BOJ_14501_퇴사](./src/ver2/BOJ_14501_퇴사/README.md)
 - [Leet_747_Min_Cost_Climbing_Stairs](./src/ver2/Leet_747_Min_Cost_Climbing_Stairs/README.md)
 - [Leet_64_Minimum_Path_Sum](./src/ver2/Leet_64_Minimum_Path_Sum/README.md)
 - [BOJ_12865_평범한_배낭](./src/ver2/BOJ_12865_평범한_배낭/README.md)

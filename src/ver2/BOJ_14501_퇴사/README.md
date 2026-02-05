@@ -1,0 +1,58 @@
+# BOJ_14501_퇴사
+
+## 문제 링크
+https://www.acmicpc.net/problem/14501
+
+## 접근 방식
+dp 배열을 만든 후 dp로 접근
+
+## 카테고리
+`DP` 
+
+
+## 코드
+```java
+package ver2.BOJ_14501_퇴사;
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] T = new int[n+1];
+        int[] P = new int[n+1];
+        int[] dp = new int[n+2];
+
+        for(int i = 1 ; i <= n; i++){
+            T[i] = sc.nextInt();
+            P[i] = sc.nextInt();
+        }
+
+        for(int i = n; i >= 1; i--){
+            if(i + T[i] > n+1){
+                dp[i] = dp[i+1];
+            }
+
+            else{
+                dp[i] = Math.max(dp[i+1], P[i] + dp[i + T[i]]);
+            }
+        }
+
+        System.out.println(dp[1]);
+
+    }
+}
+
+/*
+# 카테고리
+DP
+
+# 접근 방식
+dp 배열을 만든 후 dp로 접근
+
+# 문제 링크
+https://www.acmicpc.net/problem/14501
+ */
+
+```
