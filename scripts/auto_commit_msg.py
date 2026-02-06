@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 PROBLEMS_DIR = './src/ver2'
-SPRING_API_URL = 'http://localhost:8080/api/problem/analyze'
+SPRING_API_URL = 'http://localhost:1069/api/problem/analyze'
 
 def get_staged_java_files():
     result = subprocess.run(
