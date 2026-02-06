@@ -157,50 +157,44 @@ jobs:
         run: |
           DATE=$(date +%Y-%m-%d)
           DATETIME=$(date +"%Y-%m-%d %H:%M:%S +0900")
-          
+
           cd blog-repo/_posts
-          
+
           LAST_NUM=$(ls ${DATE}-*.md 2>/dev/null | \
                      sed "s/${DATE}-\([0-9]*\)\.md/\1/" | \
                      sort -n | \
                      tail -1)
-          
+
           if [ -z "$LAST_NUM" ]; then
             NEXT_NUM=0
           else
             NEXT_NUM=$((LAST_NUM + 1))
           fi
-          
+
           FILENAME="${DATE}-${NEXT_NUM}.md"
           cd ../..
-          
+
+          # 닫는 괄호 추가
+          CATEGORIES=$(echo "${{ steps.problem_info.outputs.all_categories }}" | tr '\n' ',' | sed 's/,$//' | sed 's/,/, /g')
+
+          # Front matter를 한 번에 작성
           cat > blog-repo/_posts/${FILENAME} << EOF
           ---
           layout: post
           title: "[Algorithm] ${{ steps.problem_info.outputs.problem_name }}"
           description: "${{ steps.problem_info.outputs.problem_name }} 접근방식"
           date: ${DATETIME}
-          tags:
-            - Algorithm
-          EOF
-          
-          echo "${{ steps.problem_info.outputs.all_categories }}" | while IFS= read -r category; do
-            if [ ! -z "$category" ]; then
-              echo "    - ${category}" >> blog-repo/_posts/${FILENAME}
-            fi
-          done
-          
-          cat >> blog-repo/_posts/${FILENAME} << EOF
+          tags: [Algorithm, ${CATEGORIES}]
           author: choijangwoo
           toc: true
           published: true
           categories: [Algorithm, ${{ steps.problem_info.outputs.first_category }}]
           ---
-          
+
           EOF
-          
+
           cat /tmp/problem_readme.md >> blog-repo/_posts/${FILENAME}
-          
+
           echo "✅ Created: ${FILENAME}"
 
       - name: commit to blog repo
