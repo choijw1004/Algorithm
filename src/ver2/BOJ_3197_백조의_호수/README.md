@@ -1,4 +1,21 @@
-package ver2;
+# BOJ_3197_백조의_호수
+
+## 문제 링크
+https://www.acmicpc.net/problem/3197
+
+## 카테고리
+`2차원 배열` `DFS` `BFS` 
+
+## 접근 방식
+가장자리에 있는 얼음들의 좌표를 구해주고 초기 시작 큐에 담아서 사이즈 별 순회로 dist 배열에 각 좌표에 있는 얼음이 며칠만에 녹는지 구해준다.
+이분탐색으로 백조가 만날 수 있는 최솟값을 구하고 업데이트된 dist 배열을 가지고 그 시간안에 dfs로 두 마리의 백조가 만날 수 있는지 도달여부를 체크하는 방식으로 해결했다.
+
+
+
+
+## 코드
+```java
+package ver2.BOJ_3197_백조의_호수;
 
 import java.util.*;
 
@@ -137,3 +154,4 @@ public class Main {
 # 문제 링크
 https://www.acmicpc.net/problem/3197
  */
+```

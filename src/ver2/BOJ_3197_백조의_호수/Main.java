@@ -1,4 +1,4 @@
-package ver2;
+package ver2.BOJ_3197_백조의_호수;
 
 import java.util.*;
 
