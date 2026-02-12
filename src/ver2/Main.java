@@ -1,4 +1,4 @@
-package ver2.BOJ_영단어암기는괴로워;
+package ver2;
 
 import java.util.*;
 
@@ -22,13 +22,13 @@ public class Main {
         List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
 
         Collections.sort(list, (a,b) -> {
-           if(a.getValue() != b.getValue()){
-               return b.getValue() - a.getValue();
-           }
-           else if(a.getKey().length()!= b.getKey().length()){
-               return b.getKey().length() - a.getKey().length();
-           }
-           return a.getKey().compareTo(b.getKey());
+            if(a.getValue() != b.getValue()){
+                return b.getValue() - a.getValue();
+            }
+            else if(a.getKey().length()!= b.getKey().length()){
+                return b.getKey().length() - a.getKey().length();
+            }
+            return a.getKey().compareTo(b.getKey());
         });
 
         for(int i = 0 ; i < list.size(); i++){
