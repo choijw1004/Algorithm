@@ -30,6 +30,7 @@
 
 ## Hash Map
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
+- [BOJ_20920_영단어_암기는_괴로워](./src/ver2/BOJ_20920_영단어_암기는_괴로워/README.md)
 - [BOJ_19583_싸이버개강총회](./src/ver2/BOJ_19583_싸이버개강총회/README.md)
 
 ## 구현
