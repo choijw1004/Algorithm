@@ -1,4 +1,4 @@
-package ver2;
+package ver2.BOJ_20920_영단어_암기는_괴로워;
 
 import java.util.*;
 

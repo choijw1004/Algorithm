@@ -1,4 +1,20 @@
-package ver2;
+# BOJ_20920_영단어_암기는_괴로워
+
+## 문제 링크
+https://www.acmicpc.net/problem/20920
+
+## 카테고리
+`Hash Map` 
+
+## 접근 방식
+Hash map에 빈도수를 저장하고 빈도수를 정렬해서 해결하였다.
+
+
+
+
+## 코드
+```java
+package ver2.BOJ_20920_영단어_암기는_괴로워;
 
 import java.util.*;
 
@@ -47,3 +63,4 @@ Hash map에 빈도수를 저장하고 빈도수를 정렬해서 해결하였다.
 # 문제 링크
 https://www.acmicpc.net/problem/20920
  */
+```
