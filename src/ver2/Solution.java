@@ -34,4 +34,3 @@ class Solution {
 # 문제 링크
 https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
  */
-
