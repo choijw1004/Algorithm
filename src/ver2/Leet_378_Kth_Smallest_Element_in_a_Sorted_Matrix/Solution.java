@@ -1,4 +1,4 @@
-package ver2;
+package ver2.Leet_378_Kth_Smallest_Element_in_a_Sorted_Matrix;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
