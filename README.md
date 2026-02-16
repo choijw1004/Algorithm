@@ -63,6 +63,9 @@
 ## 완전 탐색
 - [BOJ_19941_햄버거_분배](./src/ver2/BOJ_19941_햄버거_분배/README.md)
 
+## 우선순위 큐
+- [Leet_378_Kth_Smallest_Element_in_a_Sorted_Matrix](./src/ver2/Leet_378_Kth_Smallest_Element_in_a_Sorted_Matrix/README.md)
+
 ## 유니온 파인드
 - [BOJ_1976_여행_가자](./src/ver2/BOJ_1976_여행_가자/README.md)
 
@@ -74,6 +77,7 @@
 - [Leet_800_Koko_Eating_Bananas](./src/ver2/Leet_800_Koko_Eating_Bananas/README.md)
 
 ## 자료구조
+- [Leet_378_Kth_Smallest_Element_in_a_Sorted_Matrix](./src/ver2/Leet_378_Kth_Smallest_Element_in_a_Sorted_Matrix/README.md)
 - [BOJ_1158_요세푸스문제](./src/ver2/BOJ_1158_요세푸스문제/README.md)
 - [Leet_460_LRU_Cache](./src/ver2/Leet_460_LRU_Cache/README.md)
 
