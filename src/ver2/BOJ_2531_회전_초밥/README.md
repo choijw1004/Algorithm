@@ -1,3 +1,19 @@
+# BOJ_2531_회전_초밥
+
+## 문제 링크
+https://www.acmicpc.net/problem/2531
+
+## 카테고리
+`Hash Map` `슬라이딩 윈도우` 
+
+## 접근 방식
+길이가 고정된 슬라이딩 윈도우의 문제여서 start, end, size 변수를 사용하여 윈도우를 확장하는 방식으로 해결했다.
+
+
+
+
+## 코드
+```java
 package ver2.BOJ_회전초밥;
 
 import java.util.HashMap;
@@ -61,3 +77,5 @@ Hash Map, 슬라이딩 윈도우
 https://www.acmicpc.net/problem/2531
  */
 
+
+```
