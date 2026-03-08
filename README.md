@@ -32,6 +32,7 @@
 - [Leet_347_TopKFrequentElements](./src/ver2/Leet_347_TopKFrequentElements/README.md)
 - [BOJ_20920_영단어_암기는_괴로워](./src/ver2/BOJ_20920_영단어_암기는_괴로워/README.md)
 - [BOJ_19583_싸이버개강총회](./src/ver2/BOJ_19583_싸이버개강총회/README.md)
+- [BOJ_2531_회전_초밥](./src/ver2/BOJ_2531_회전_초밥/README.md)
 
 ## 구현
 - [BOJ_20006_랭킹전_대기열](./src/ver2/BOJ_20006_랭킹전_대기열/README.md)
@@ -58,6 +59,7 @@
 - [Leet_1423_Maximum_Points_You_Can_Obtain_from_Cards](./src/ver2/Leet_1423_Maximum_Points_You_Can_Obtain_from_Cards/README.md)
 - [Leet_438_FindAllAnagramsinaString](./src/ver2/Leet_438_FindAllAnagramsinaString/README.md)
 - [Leet_1343_NumberofSubarraysofSizeKandAverageGreaterthanorEqualtoThreshold](./src/ver2/Leet_1343_NumberofSubarraysofSizeKandAverageGreaterthanorEqualtoThreshold/README.md)
+- [BOJ_2531_회전_초밥](./src/ver2/BOJ_2531_회전_초밥/README.md)
 - [Leet_2090_KRadiusSubarrayAverages](./src/ver2/Leet_2090_KRadiusSubarrayAverages/README.md)
 
 ## 완전 탐색
