@@ -52,3 +52,11 @@ public class Main {
         System.out.println(max);
     }
 }
+/*
+# 카테고리
+Hash Map, 슬라이딩 윈도우
+# 접근 방식
+길이가 고정된 슬라이딩 윈도우의 문제여서 start, end, size 변수를 사용하여 윈도우를 확장하는 방식으로 해결했다.
+# 문제 링크
+https://www.acmicpc.net/problem/2531
+ */
