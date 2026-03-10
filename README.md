@@ -38,7 +38,6 @@
 - [BOJ_20006_랭킹전_대기열](./src/ver2/BOJ_20006_랭킹전_대기열/README.md)
 
 ## 그래프
-- [BOJ_1325_효율적인_해킹](./src/ver2/BOJ_1325_효율적인_해킹/README.md)
 - [BOJ_1976_여행_가자](./src/ver2/BOJ_1976_여행_가자/README.md)
 - [BOJ_11967_불켜기](./src/ver2/BOJ_11967_불켜기/README.md)
 
