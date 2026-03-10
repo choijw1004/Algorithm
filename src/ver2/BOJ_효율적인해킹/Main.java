@@ -73,3 +73,12 @@ public class Main {
 
     }
 }
+
+/*
+# 카테고리
+BFS
+# 접근 방식
+일반적인 그래프의 BFS 사용 여부를 판별하는 문제이다. BFS로 그래프를 순회했을 때 max 값을 갱신하는 방식으로 문제를 해결할 수 있었다.
+# 문제 링크
+https://www.acmicpc.net/problem/1325
+ */

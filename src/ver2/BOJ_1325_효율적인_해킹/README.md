@@ -4,17 +4,17 @@
 https://www.acmicpc.net/problem/1325
 
 ## 카테고리
-`그래프` `BFS` 
+`BFS` 
 
 ## 접근 방식
-각 노드 별로 BFS를 돌려 나오는 리턴값을 비교해서 값을 출력하는 방식이다.
+일반적인 그래프의 BFS 사용 여부를 판별하는 문제이다. BFS로 그래프를 순회했을 때 max 값을 갱신하는 방식으로 문제를 해결할 수 있었다.
 
 
 
 
 ## 코드
 ```java
-package ver2.BOJ_1325_효율적인_해킹;
+package ver2.BOJ_효율적인해킹;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -92,11 +92,9 @@ public class Main {
 
 /*
 # 카테고리
-그래프, BFS
-
+BFS
 # 접근 방식
-각 노드 별로 BFS를 돌려 나오는 리턴값을 비교해서 값을 출력하는 방식이다.
-
+일반적인 그래프의 BFS 사용 여부를 판별하는 문제이다. BFS로 그래프를 순회했을 때 max 값을 갱신하는 방식으로 문제를 해결할 수 있었다.
 # 문제 링크
 https://www.acmicpc.net/problem/1325
  */
