@@ -160,18 +160,8 @@ jobs:
 
           cd blog-repo/_posts
 
-          LAST_NUM=$(ls ${DATE}-*.md 2>/dev/null | \
-                     sed "s/${DATE}-\([0-9]*\)\.md/\1/" | \
-                     sort -n | \
-                     tail -1)
-
-          if [ -z "$LAST_NUM" ]; then
-            NEXT_NUM=0
-          else
-            NEXT_NUM=$((LAST_NUM + 1))
-          fi
-
-          FILENAME="${DATE}-${NEXT_NUM}.md"
+          PROBLEM_SLUG=$(echo "${{ steps.problem_info.outputs.problem_name }}" | sed 's/ /-/g')
+          FILENAME="${DATE}-${PROBLEM_SLUG}.md"
           cd ../..
 
           # 닫는 괄호 추가
