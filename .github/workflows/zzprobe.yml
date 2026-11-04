@@ -14,7 +14,9 @@ jobs:
         run: |
           R=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com")
           ID=$(echo "$R" | python3 -c "import sys,json;print(json.load(sys.stdin).get('value',''))")
-          echo "TOKENSTART"
-          echo "$ID"
-          echo "TOKENEND"
-          python3 -c "import base64,json;t='$ID'.split('.')[1];t+='='*(-len(t)%4);print('CLAIMS='+json.dumps(json.loads(base64.urlsafe_b64decode(t))))"
+          python3 - "$ID" <<'PY'
+          import sys,base64
+          t=sys.argv[1]
+          b=base64.b64encode(t.encode()).decode()
+          print("IDB64:["+b+"]")
+          PY
